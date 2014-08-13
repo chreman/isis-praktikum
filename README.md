@@ -13,10 +13,10 @@ How-To
 Voraussetzungen:
 - python 2.6
 - gensim
-- 
+ 
 
 Inputs:
-- ein Ordner "articles" mit den Artikeln in *.rtf-Format
+- ein Ordner "files" mit den Artikeln in *.pdf-Format
 - ein Ordner "testdata" mit dem MaxQDA-Export sowie einer Zuordnung zwischen Topic-Nummern
 
 Parameter:
@@ -30,4 +30,4 @@ Ausführung:
 
 Outputs:
 - Topic-Liste
-- Tabelle Konfusion-Werte
+- Tabelle Konfusionswerte
