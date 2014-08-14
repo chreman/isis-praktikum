@@ -32,7 +32,7 @@ def main():
     directory, and run the script.
     """
 
-    depth = "document"
+    depth = "paragraph"
 
     convert_pdfs()
     xmls = get_filelist("files", "xml")
@@ -250,11 +250,11 @@ def load_reference_texts(model):
         translation = {row[0]:int(row[1]) for row in reader}
     xls = xlrd.open_workbook("testdata/testdata.xls")
     codings = xls.sheet_by_name("Codings")
-    topics = [row.value for row in codings.col(2)]
-    topics = [topic for topic in topics[1:]]
-    topics = [translation[topic] for topic in topics]
-    texts = [row.value for row in codings.col(6)]
-    testdata = zip(topics, texts)[1:]
+    topics = [row.value for row in codings.col(2)][1:] # get topic column; skip column names
+    topics = [topic for topic in topics]
+    topics = [translation[topic] for topic in topics] # recode from name to number
+    texts = [row.value for row in codings.col(6)][1:] # get text column; skip column names
+    testdata = zip(topics, texts)
     return testdata
 
 
@@ -317,16 +317,13 @@ def evaluate_model(keyword, testdata, modelname, model, num_words, threshold, de
         if test_neg != 0:
             neg_pred_value = float(true_negatives) / float(test_neg)
         accuracy = float(true_positives + true_negatives) / float(total)
-        print ""
-        print "The confusion table for %s on %s level and topic nr. %s is:" %(keyword, depth, str(ref))
+        print "\nThe %s confusion table for %s on %s level and topic nr. %s is:" %(modelname, keyword, depth, str(ref))
         print "TP: {0}   FN: {1} \nFP: {2}   TN: {3}".format(true_positives, false_negatives, false_positives, true_negatives)
         print "Recall: %.4f" % recall
         print "Specificity: %.4f" % specificity
         print "Precision: %.4f" % precision
         print "Neg. Predict. Value: %.4f" % neg_pred_value
-        print "Accuracy: %.4f" % accuracy
-        print ""
-        print ""
+        print "Accuracy: %.4f \n" % accuracy
         export_evaluation_results(keyword, depth, model, [str(ref), 
                                                             str(total), 
                                                             str(cond_pos),

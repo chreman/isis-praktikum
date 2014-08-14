@@ -1,0 +1,1343 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pdfx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://pdfx.cs.man.ac.uk/static/article-schema.xsd">
+  <meta>
+    <job>e5475b3e90ba56ced673466e77806dccad62759b205a3e9cf76ace9e0a839805</job>
+    <base_name>5ac9</base_name>
+    <doi>http://dx.doi.org/10.1371/journal.pone.0010921</doi>
+  </meta>
+  <article>
+    <front class="DoCO:FrontMatter">
+      <title-group>
+        <article-title class="DoCO:Title" id="1">Principal Semantic Components of Language and the Measurement of Meaning</article-title>
+      </title-group>
+      <contrib-group class="DoCO:ListOfAuthors">
+        <contrib contrib-type="author">
+          <name id="2">Alexei V. Samsonovic</name>
+        </contrib>
+        <contrib contrib-type="author">
+          <name id="3">Giorgio A. Ascoli</name>
+        </contrib>
+      </contrib-group>
+      <footnote class="DoCO:Footnote" id="8">* E-mail: <email id="7">ascoli@gmu.edu</email></footnote>
+      <region class="unknown" id="4">Structures, and Plasticity and Molecular Neuroscience Department, Center for Neural Informatics, Krasnow Institute for Advanced Study, George Mason University, Fairfax, Virginia, United States of America</region>
+      <abstract class="DoCO:Abstract" id="5">Metric systems for semantics, or semantic cognitive maps, are allocations of words or other representations in a metric space based on their meaning. Existing methods for semantic mapping, such as Latent Semantic Analysis and Latent Dirichlet Allocation, are based on paradigms involving dissimilarity metrics. They typically do not take into account relations of antonymy and yield a large number of domain-specific semantic dimensions. Here, using a novel self-organization approach, we construct a low-dimensional, context-independent semantic map of natural language that represents simultaneously synonymy and antonymy. Emergent semantics of the map principal components are clearly identifiable: the first three correspond to the meanings of ‘‘good/bad’’ (valence), ‘‘calm/excited’’ (arousal), and ‘‘open/closed’’ (freedom), respectively. The semantic map is sufficiently robust to allow the automated extraction of synonyms and antonyms not originally in the dictionaries used to construct the map and to predict connotation from their coordinates. The map geometric characteristics include a limited number (,4) of statistically significant dimensions, a bimodal distribution of the first component, increasing kurtosis of subsequent (unimodal) components, and a U-shaped maximum-spread planar projection. Both the semantic content and the main geometric features of the map are consistent between dictionaries (Microsoft Word and Princeton’s WordNet), among Western languages (English, French, German, and Spanish), and with previously established psychometric measures. By defining the semantics of its dimensions, the constructed map provides a foundational metric system for the quantitative analysis of word meaning. Language can be viewed as a cumulative product of human experiences. Therefore, the extracted principal semantic dimensions may be useful to characterize the general semantic dimensions of the content of mental states. This is a fundamental step toward a universal metric system for semantics of human experiences, which is necessary for developing a rigorous science of the mind.</abstract>
+      <region class="unknown" id="6">Citation: Samsonovic AV, Ascoli GA (2010) Principal Semantic Components of Language and the Measurement of Meaning. PLoS ONE 5(6): e10921. doi:10.1371/ journal.pone.0010921 Editor: Jeffrey Krichmar, University of California, Irvine, United States of America Received December 31, 2009; Accepted April 23, 2010; Published June 11, 2010 Copyright: ß 2010 Samsonovich, Ascoli. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited. Funding: This work was partially supported by the Defense Advanced Research Projects Agency Information Processing Techniques Office Biologically-Inspired Cognitive Architectures grant ‘‘Integrated Self-Aware Cognitive Architecture’’. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript. Competing Interests: The authors have declared that no competing interests exist.</region>
+    </front>
+    <body class="DoCO:BodyMatter">
+      <section class="deo:Introduction">
+        <h1 class="DoCO:SectionTitle" id="9" page="1" column="1">Introduction</h1>
+      </section>
+      <region class="DoCO:TextChunk" id="29" page="1" column="1">Words of natural language along with idioms and phrases are used in speech and writing to communicate conscious experiences, such as thoughts, feelings, and intentions. Each meaningful word, considered without any context, is characterized by a set of semantic connotations [ <xref ref-type="bibr" rid="R1" id="10" class="deo:Reference">1</xref>]. These connotations are a product of, and correlate with experiences communicated with the use of the word. Stated differently, communicated word semantics are behavioral correlates of experienced semantics. Therefore, the scientific characterization of word semantics can shed light on semantics of human experiences. In particular, if word meaning can be measured based on a metric system, the same metric system might be useful to measure the meaning of experiences. Thus, a precise metric system for the semantics of words could be a key in developing empirical science of the human mind [<xref ref-type="bibr" rid="R2" id="11" class="deo:Reference">2</xref>]. To build a metric system for the semantics of words means to allocate words in a metric space based on their semantics, i.e., to create a semantic map of words. There are multiple ways to generate such maps based on the representation of semantic<marker type="column" number="2"/><marker type="block"/> dissimilarity as geometrical distance [<xref ref-type="bibr" rid="R3" id="13" class="deo:Reference">3</xref>, <xref ref-type="bibr" rid="R4" hidden="1" id="14" class="deo:Reference">4</xref>, <xref ref-type="bibr" rid="R5" hidden="1" id="15" class="deo:Reference">5</xref>, <xref ref-type="bibr" rid="R6" hidden="1" id="16" class="deo:Reference">6</xref>, <xref ref-type="bibr" rid="R7" id="17" class="deo:Reference">7</xref>]. Word semantics have multiple, possibly complementary aspects. Semantic maps created with distance metrics that emphasize different aspects may have different properties [<xref ref-type="bibr" rid="R8" id="18" class="deo:Reference">8</xref>]. One aspect of word semantics determines the likelihood for the word to appear in a particular topic or document. Most of the previous studies devoted to allocating words in space based on their meaning, including Latent Semantic Analysis (LSA: [<xref ref-type="bibr" rid="R4" id="19" class="deo:Reference">4</xref>]) and related techniques [<xref ref-type="bibr" rid="R5" id="20" class="deo:Reference">5</xref>], focused on this aspect of word semantics, resulting in domain-specific semantic maps. Here we develop an alternative approach based on the separate aspect of word semantics that determines whether two words are synonyms or antonyms (we will generally refer to a word that is either a synonym or an antonym as an onym). This aspect of word semantics, when expressed parsimoniously, is in many cases domain-independent, as may be illustrated with the following example. The term short-term memory belongs to the domains of cognitive, computational and neuro-sciences, together with its antonym: long-term memory [<xref ref-type="bibr" rid="R9" id="21" class="deo:Reference">9</xref>]. At the same time, the general sense of the parsimoniously expressed antonymy relation, ‘‘short vs. long’’, is applicable to virtually any domain.<marker type="page" number="2"/><marker type="column" number="1"/><marker type="block"/> This semantic aspect relates to the basic ‘‘flavor’’ of experience captured by generally applicable antonym pairs [<xref ref-type="bibr" rid="R10" id="27" class="deo:Reference">10</xref>, <xref ref-type="bibr" rid="R11" id="28" class="deo:Reference">11</xref>]: e.g., big vs. small, abstract vs. concrete, material vs. spiritual, whole vs. part, central vs. peripheral, one vs. many, rich vs. poor, etc. Interestingly, we determined that the seemingly enormous variety of possible semantic directions is reducible to a small number (estimated as four) of main semantic dimensions that are in a definite sense orthogonal to each other. We found that these main semantic dimensions can be approximately characterized as (1) ‘‘good’’ vs. ‘‘bad’’, (2) ‘‘calming’’ vs. ‘‘exciting’’, (3) ‘‘open’’ vs. ‘‘closed’’, and</region>
+      <outsider class="DoCO:TextBox" type="footer" id="23" page="1" column="2">PLoS ONE | www.plosone.org</outsider>
+      <outsider class="DoCO:TextBox" type="page_nr" id="24" page="1" column="2">1</outsider>
+      <outsider class="DoCO:TextBox" type="footer" id="25" page="1" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+      <outsider class="DoCO:TextBox" type="header" id="26" page="2" column="1">Principal Semantic Dimensions</outsider>
+      <disp-formula class="DoCO:FormulaBox" id="F4">
+        <label class="DoCO:Label" id="30">4</label>
+        <content class="DoCO:Formula" id="31" confidence="possible" page="2" column="1">‘‘basic’’ vs. ‘‘elaborate’’.</content>
+      </disp-formula>
+      <section class="deo:Methods">
+        <h1 class="DoCO:SectionTitle" id="32" page="2" column="1">Materials and Methods</h1>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="33" confidence="possible" page="2" column="1">Linguistic Corpora and Core Dictionaries</h2>
+          <region class="DoCO:TextChunk" id="35" page="2" column="1">This study was conducted using the dictionaries of synonyms and antonyms extracted from the thesaurus of Microsoft Office 2003 and 2007 Professional Enterprise Editions, further referred to as MS, in English, French, Spanish, and German, as well as the dictionary of English synonym and antonyms available as part of the Princeton WordNet 3.0 resource [<xref ref-type="bibr" rid="R12" id="34" class="deo:Reference">12</xref>], further referred to as WN English or simply WN. The MS corpora have independent origin for different languages (e.g., the English thesaurus was developed for Microsoft by Bloomsbury Publishing, Plc., while the French thesaurus is copyrighted by SYNAPSE Development, Toulouse, France). These MS dictionaries of synonyms and antonyms were acquired automatically with the following recursive procedure (see below for hardware and software details).</region>
+          <region class="DoCO:TextChunk" id="36" confidence="possible" page="2" column="1">Step 1. Start in the thesaurus with the seed word ‘‘first’’, or its translation in other languages. Alteration of the initial word never changed the resultant core dictionary by more than a few words. Step 2. Add all synonyms and antonyms of the word to the dictionary, avoiding duplicates; repeat step 2 using each of these onyms sequentially as a new word. Step 3. Take the next word from the thesaurus in alphabetical order, and repeat steps 2 and 3. After the last alphabetical word, resume with the first one and continue until the entire thesaurus is processed.</region>
+          <region class="DoCO:TextChunk" id="39" page="2" column="1">Next, we extracted the subset of the dictionary corresponding to the largest component of the graph of synonym and antonym links truncated to nodes (words) with a minimum of two links, including at least one antonym link, per node [<xref ref-type="bibr" rid="R13" id="37" class="deo:Reference">13</xref>]. In particular, the MS dictionaries of synonyms and antonyms, and the equivalent WordNet dataset downloaded from the zipped files available online (<ext-link ext-link-type="uri" href="http://wordnet.princeton.edu" id="38">http://wordnet.princeton.edu</ext-link> on 3/29/07), were further processed in the following ways.</region>
+          <region class="DoCO:TextChunk" id="40" confidence="possible" page="2" column="1">Step 4. Symmetrize the onym relation by making all synonym and antonym links bi-directional. In other words, if word A is a synonym of word B, then B is synonym of A. This symmetrization is necessary to define the energy function. Step 5. Eliminate onym inconsistencies: if word A is listed at the same time as synonym and antonym of word B, both onym relations between A and B are removed. Step 6. Identify the largest connected cluster in the graph of onym relations. Remove all words that do not belong to this main cluster. Step 7. Eliminate all words with no antonyms or fewer than two synonym/antonym links. The remaining</region>
+          <region class="DoCO:TextChunk" id="41" confidence="possible" page="2" column="2">dictionary of synonym and antonyms is referred to as the ‘‘core’’ dictionary.</region>
+          <region class="DoCO:TextChunk" id="42" page="2" column="2">The different core dictionaries had widely differing characteristics. The MS English core has 15,783 words, with an average of 11 synonyms and 2.7 antonyms per word. The WN English core has 20,477 words, with an average of 3.8 synonyms and 4.2 antonyms per word. The MS French core has 65,721 words, with an average of 6.5 synonyms and 10 antonyms per word. The MS German and Spanish cores have 93,887 and 259,436 words, respectively. The total size of each corpus is above 200,000 words, and in all cases, the extracted cores were a small part of the entire thesaurus. However, the next largest connected cluster was typically several orders of magnitude smaller than the core. For example, in WN the second largest connected cluster only contained 34 words.</region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="43" confidence="possible" page="2" column="2">Construction of the Semantic Map</h2>
+          <region class="DoCO:TextChunk" id="51" page="2" column="2">Our approach to constructing a cognitive map by self- organization of a distribution of words in a multidimensional vector space is inspired by statistical physics. At the beginning, we randomly allocate all N words of a given core dictionary as points in a high-dimensional unit ball, i.e. as vectors with length #1. The specific results described here were obtained with a dimension of 26, but they remained essentially identical when using the lower and higher dimension values of 10 and 100, respectively. Next, we minimize an ‘‘energy’’ or cost function H of the distribution, thereby finding a minimum or ‘‘ground state’’ of the system. The energy function of the word configuration x, was defined precisely as follows: <marker type="block"/> Here x i is the 26-dimensional vector representing the i th word (out of N) in the configuration x. The W ij entries of the symmetric relation matrix equal +1 for pairs of synonyms, 21 for pairs of antonyms, and zero for all non-onym pairs. Intuitively, maximiz- ing the first sum moves synonyms towards the same hemispaces, while minimizing the second tends to align antonym pairs on opposite sides of the origin, reflecting their semantic relations. The fourth-power norm provides a soft limit to the absolute distance from the center. More specifically, the first term of the equation is the simplest analytical expression that captures the intent of aligning synonym vectors in parallel and antonym vectors in opposite directions. The last term is the lowest symmetric power term that is necessary to keep the distribution compact. This general approach and specific selection were empirically validated by their successful reconstruction of a map whose meaning was known a priori, that of color space, as illustrated at the end of the Results section. This process may be illustrated with an example. In the initial random distribution of all words, before minimizing the energy function (*), the angles between word vectors in multi-dimensional space tend to be close to 90u. For instance, one specific simulation run using MS Word English data started from the following angles for a sample of word pairs: right/wrong, 63u; excited/hectic, 71u; right/ excited, 91u. During the optimization process, words move from the initial random allocation based on their synonym/antonym relations, such that synonyms would ‘‘attract’’ each other and antonyms would ‘‘repel’’ each other. After the optimization is completed, the angles between the same word vectors become:<marker type="page" number="3"/><marker type="column" number="1"/><marker type="block"/> right/wrong, 178u (almost opposite directions); excited/hectic, 12u (almost parallel); right/excited, 95u (almost orthogonal). These final angles do not depend on the initial angles. The adopted optimization procedures included a second-order Newton algorithm using analytic expressions for derivatives of the energy function, and a zero-order steepest-descent algorithm with time-dependent ‘‘thermal noise’’ or simulated annealing. Conver- gence of the optimization was assessed by measuring the norm of the gradient of the energy function, as well as the relative change of the energy function itself and word coordinates in one iteration (see below for hardware and software details). In particular, the process was terminated whenever any of these monitored 26 parameters fell below the threshold of 2?10 (dictated by the precision of calculations), which was achieved in all cases in less than 10 6 steps. When the optimization is completed, we rotate the resultant distribution to its principal components (PCs) by single value decomposition. Since the cost function and optimization procedure are symmetric with respect to the origin, the final sign of any PC coordinate is not meaningful by itself and can be considered a random outcome. Thus, upon completion of optimization, we flip each axis as needed to standardize its semantics for consistency among simulation runs. We selected the axes orientation arbitrarily once and for all maps, pointing the positive ends toward ‘‘good’’, ‘‘exciting’’, ‘‘open’’ and ‘‘elaborate’’, respectively. Moreover, we normalized word coordinates by the average square length of all word vectors, effectively scaling the entire distribution to the unit variance. These post-processing operations of rotation, selective axis inversion, and rescaling, do not change the intrinsic shape of the optimized distribution, but are convenient and necessary for quantitative comparison of corpora. The final distribution appeared to be systematically invariant with respect to the choice of initial random coordinates over multiple trials, suggesting that the global minimum of H (*) was reached in each case.</region>
+          <region class="unknown" id="45" page="2" column="2">H ð x Þ~{ 1 X N W ij x i : x j z 1 X N Dx i D 4 , x [ &lt; N 6&lt; 26 : ðÃÞ 2 4 i,j~1 i~1</region>
+          <outsider class="DoCO:TextBox" type="footer" id="47" page="2" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="48" page="2" column="2">2</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="49" page="2" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="50" page="3" column="1">Principal Semantic Dimensions</outsider>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="52" confidence="possible" page="3" column="1">Psychometric Data and Word Frequency Databases</h2>
+          <region class="DoCO:TextChunk" id="59" page="3" column="1">The Affective Norms for English Words (ANEW [ <xref ref-type="bibr" rid="R14" id="53" class="deo:Reference">14</xref>]) database, developed by the Center for the Study of Emotion and Attention (CSEA) at the University of Florida, was kindly provided by Dr. Margaret M. Bradley. The ANEW database contains 1,034 words and was created using the Self-Assessment Manikin to acquire ratings of pleasure, arousal, and dominance. Each rating scale in ANEW runs from 1 to 9, with a rating of 1 indicating a low value (low pleasure, low arousal, low dominance) and 9 indicating a high value on each dimension. Two word frequency databases were used. The first is the demographic (conversational) set from the British National Corpus (BNC), a 100 million word collection of language samples from a wide range of sources, representative of contemporary English. The XML Edition (2007 release), maintained by the University of Oxford (United Kingdom), was downloaded from <ext-link ext-link-type="uri" href="http://www" id="54">http://www</ext-link>. natcorp.ox.ac.uk/corpus. The raw dataset distilled so to exclude those items occurring five or fewer times [<xref ref-type="bibr" rid="R15" id="55" class="deo:Reference">15</xref>] included 14,736 words, of which 2,453 were common with the MS English core and were used in our study. The second word frequency database we employed is the Sydney Morning Herald Word Database, which contains frequency and density figures from one full year (1994) of newspaper publication, amounting to more than 23 million words in 38,526 articles. This ‘‘Australian’’ database, maintained by the University of Queensland, was downloaded from <ext-link ext-link-type="uri" href="http://www2" id="56">http://www2</ext-link>. psy.uq.edu.au/CogPsych/Noetica/OpenForumIssue4/SMH.html. The curator’s filtering to exclude items that occur in only one article<marker type="column" number="2"/><marker type="block"/> yield 97,031 words [<xref ref-type="bibr" rid="R16" id="58" class="deo:Reference">16</xref>], of which 8,807 were common with the MS English core.</region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="60" confidence="possible" page="3" column="2">Software and Hardware</h2>
+          <region class="DoCO:TextChunk" id="62" page="3" column="2">The algorithm to acquire the MS dictionaries of synonym and antonyms (Steps 1–3 above) was based on COM (Component Object Model) automation, and implemented in MathWorks Matlab (v7.5, R2007b) following published examples [<xref ref-type="bibr" rid="R17" id="61" class="deo:Reference">17</xref>]. The programs to extract the core dictionaries (Steps 4–7), to construct the semantic map (as described above), and to analyze the results, were custom implemented using a combination of GNU C (GCC 4.2) and Matlab along with their standard libraries and functions (all code is available upon request). These programs ran under the Windows XP Professional, Linux Fedora 7 and 8, or SunOS operating systems, either on a Dell Optiplex GX620 workstation or on a Sun Fire V890 server.</region>
+        </section>
+      </section>
+      <section class="deo:Results">
+        <h1 class="DoCO:SectionTitle" id="63" page="3" column="2">Results</h1>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="64" confidence="possible" page="3" column="2">Construction and Geometric Characterization of the Semantic Map</h2>
+          <region class="DoCO:TextChunk" id="72" page="3" column="2">Starting from the synonym/antonym matrix extracted from the widely-employed English thesaurus of Microsoft Word (MS English), optimization converges to a definite stable state that is macroscopically independent of the initial random conditions (details in the Materials and Methods section above). Upon rotation to principal components and normalization to unit variance, the resulting spatial distribution of words displays distinct geometric features associated with corresponding word meanings, i.e. it constitutes a semantic map (<xref ref-type="fig" rid="F1" id="65" class="deo:Reference">Figure 1</xref>). A first semantic interpretation of the principal components was derived by examining the word sorted along each axis. The top and bottom of these lists indicated that the first principal component captures the notion of good/bad (‘valence’), the second of calming- exciting (‘arousal’), and the third of open-closed (‘freedom’). A more detailed semantic analysis is provided below. The maximum spread planar projection (<xref ref-type="fig" rid="F1A" id="66" class="deo:Reference">Figure 1A</xref>) exhibits a prominent ‘‘U-shape’’ resulting from a bimodal distribution along the first dimension and a unimodal distribution along the second. Subsequent components are all unimodal with a systematic increase in the ‘‘peakedness’’, or kurtosis (<xref ref-type="fig" rid="F2" id="67" class="deo:Reference">Figure 2</xref>). The first three and four components encompass 95% and .99.9% of the spatial variance, respectively (<xref ref-type="fig" rid="F2" id="68" class="deo:Reference">Figure 2</xref>), irrespective of the dimensionality of the initial embedding (R 10 –R 100 ). Qualitatively similar features emerge when adopting an independent dictionary of synonyms and antonyms, Princeton’s WordNet [<xref ref-type="bibr" rid="R12" id="69" class="deo:Reference">12</xref>] (<xref ref-type="fig" rid="F1B" id="70" class="deo:Reference">Figure 1B</xref>), and different languages, including French (<xref ref-type="fig" rid="F1C" id="71" class="deo:Reference">Figure 1C</xref>), German, and Spanish (Materials and Methods section below).</region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="73" confidence="possible" page="3" column="2">Qualitative and Quantitative Semantic Characterization of the Map</h2>
+          <region class="DoCO:TextChunk" id="107" page="3" column="2">A key issue in the analysis of the constructed semantic map is the assignment of clearly recognizable semantics, if any, to each of the significant principal components, which are all geometrically orthogonal to each other. Such identification of the principal semantic components demonstrates the suitability of this approach to establish a metric to measure meaning and the content of mental states. The relative locations of words in the map consistently match the content of their meaning. Specifically, the projection of words onto the first principal component of the map systematically lines up along the ‘‘good-bad’’ dimension (‘valence’). More precisely, the sign of this coordinate robustly predicts the ‘‘positive-negative’’ content of each word, and the numerical value <marker type="page" number="4"/><marker type="column" number="1"/><marker type="block"/> along this axis accurately orders words according to that aspect of their meaning. To illustrate this feature with an example, we ranked words describing mood (from best to worst) based on an independent psychometric measure of ‘‘pleasure’’ derived from a large number of human raters, namely the first of the Affective Norms for English Words (ANEW) [<xref ref-type="bibr" rid="R18" id="81" class="deo:Reference">18</xref>]. Traversing the resulting list in the MS English map yields a quantitative ‘‘mood scale’’, from happy (1.96), confident (1.50), merry (0.99), and untroubled (0.78), to bored (20.57), helpless (21.01), hurt (21.33), depressed (21.59), and sad (21.89). These words follow the exact same order in the map derived from WordNet (WN), and the quantitative values between 24 the two are tightly correlated (R = 0.95, p,10 ). This characterization of the first component generalizes to all words of the dictionary, demonstrating a highly significant correlation both between corpora (MS and WN) and with the ANEW ‘pleasure’ scale (<xref ref-type="fig" rid="F3" id="82" class="deo:Reference">Figure 3</xref>). The second component of the map similarly orders terms based on a connotation of ‘‘calming-exciting’’ or ‘‘easy-difficult’’ (vertical axis in <xref ref-type="fig" rid="F1A" id="83" class="deo:Reference">Figure 1A</xref>–C). Both the sign and the relative value of this<marker type="column" number="2"/><marker type="block"/> coordinate are again consistent semantic predictors, as in the examples of relax (21.55 in the MS map, 21.05 in WN), troubling (0.62, 0.95), and excite (0.99, 1.16). Since principal components are by construction orthogonal on the map, the values of word coordinates in these first two dimensions (PC#1 and PC#2) are mutually independent. In particular, words with negative ‘arousal’ value can be either good or bad, as in soothing (first principal component 0.69, second 21.19 in MS) and boring (21.31, 20.94), and the same holds for positive arousal terms such as thrilling (0.88, 0.74) and shocked (20.50, 0.76). More generally, while the positions of words in the maximum spread projection (first two components) are highly consistent among MS English, WordNet, and the map derived from MS French thesaurus (<xref ref-type="fig" rid="F1A" id="85" class="deo:Reference">Figure 1A</xref>–C), they bear no implication on the values of subsequent components (<xref ref-type="fig" rid="F1D" id="86" class="deo:Reference">Figure 1D</xref>). The precise semantics of a component is given by the entire distribution of words on the map. For practical purposes, however, these semantics may be approximately described by the most representative words. In particular, the projection of a word on a given axis reflects its semantic amount along the corresponding<marker type="page" number="5"/><marker type="column" number="1"/><marker type="block"/> component. At the same time, the alignment of a word with an axis provides an indication of the semantic specificity for that component. Thus, every semantic component of the map can be intuitively characterized by the words with both the largest projection on, and the best alignment with, each axis in either direction. For a given i th component, these words can be found as follows. We divide the i th coordinate of each word by the square root of their individual vector length, and sort all words according to the result. The projection of a word on each axis simply equals the value of the corresponding coordinate, while the alignment with an axis is measured by that coordinate value divided by the word vector length; thus the coordinate divided by the square root of the vector length is the geometric mean between the projection on, and the alignment with, a given axis. The top and bottom words of the sorted list are taken to represent the meaning of that component. A similar process can be applied to antonym pairs. In particular, antonym pairs can be sorted by dividing the difference of the two words in the given coordinate by the square root of their vector distance. The top antonym pairs in the sorted list are also taken to represent the meaning of that component. Both approaches based on individual words and antonym pairs reveal definitive and consistent semantics for all four significant PC’s in MS English (<xref ref-type="table" rid="T1" id="94" class="deo:Reference">Table 1</xref>). For example, the top individual words for the first component (clear, well..., improve) all have positive valence, while the bottom ones (decline, poor..., bad) all have negative valence. Similarly, the sorted antonym pairs (e.g. happy/sad, well/badly, etc.) have opposite meaning relative to valence. The semantics of the third and fourth orthogonal dimensions can be summarized as ‘‘open/closed’’ (‘dominance’) and ‘‘copi-<marker type="column" number="2"/><marker type="block"/> ous/essential’’, respectively. The first three components, but not the fourth, are also consistent with the corresponding semantics of both the WN English corpus and the MS French corpus, after automatic translation into English with the Google translator tool (<ext-link ext-link-type="uri" href="http://translate.google.com" id="96">http://translate.google.com</ext-link>). In particular, a large number of terms repeated in the same components across corpora and languages, reflecting general semantic agreement in matching PCs (<xref ref-type="table" rid="T1" id="97" class="deo:Reference">Table 1</xref>). As demonstrated in the next section, this correlation can be quantified and is statistically significant across these and several other languages and corpora. Words that ‘jumped’ components across corpora (austere, bound, demolished, destroyed, dry, old, overcame, release, severe, slacken, subjected, subjugated) always involve PC4, except one word (smooth) occurring in PC2 and PC3. Moreover, PC4 has no within-column cross-corpora repetitions, and in general shows lower consistency compared to the first 3 PCs. The general essence of each word can be thus quantitatively represented as a set of coordinates corresponding to its values along each of the principal components of the map (<xref ref-type="fig" rid="F4" id="98" class="deo:Reference">Figure 4</xref>). For example, the meaning of the word serenity has ‘‘good’’ valence (+0.59 on component 1), a major ‘‘calm’’ term (21.08 on component 2), and a sense of ‘‘closure’’ (20.21 on component 3). In this case, there is a clearly dominant component (the second). On average, by construction, the first components tend to have higher amplitudes than later components. This means that, broadly, the most informative element of a word is how ‘‘good’’ or ‘‘bad’’ it is, followed by how ‘‘calming/exciting’’, etc. It is also interesting to compare the principal semantic components of a given word on a relative scale after filtering this general trend. This renormalization can be achieved by dividing each coordinate by the average amplitude of the corresponding component. In the<marker type="page" number="6"/><marker type="column" number="1"/><marker type="block"/> serenity case, the third component becomes nearly as prominent as the first one on this relative scale (68% vs. 72%, respectively: <xref ref-type="fig" rid="F4" id="106" class="deo:Reference">Figure 4</xref>).</region>
+          <outsider class="DoCO:TextBox" type="footer" id="75" page="3" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="76" page="3" column="2">3</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="77" page="3" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="78" page="4" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F1">
+            <image class="DoCO:Figure" src="5ac9.page_004.image_01.png" thmb="5ac9.page_004.image_01-thumb.png"/>
+            <caption class="deo:Caption" id="80" page="4" column="1">Figure 1. Principal components (PCs) of the constructed semantic map. Distributions of words in maximal-spread projections (PC2 vs. PC1) are shown in panels A–C. Coordinates are normalized by the squared-average vector length of all words. A: MS (Microsoft Word) English, B: WN (WordNet 3.0) English, C: MS French. D: MS English in PC3–PC4 coordinates. Representative words are labeled and identical terms or automated word-to-word translations are marked by same colors on different panels. The small blue dots represent all words of the corpora. A small random subset of words is plotted in light blue to aid visibility of individual dots in the face of excessive density (e.g., in panel C). Similarity of relative word positions is evident across panels A–C, but not D. doi:10.1371/journal.pone.0010921.g001</caption>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="88" page="4" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="89" page="4" column="2">4</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="90" page="4" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="91" page="5" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F2">
+            <image class="DoCO:Figure" src="5ac9.page_005.image_02.png" thmb="5ac9.page_005.image_02-thumb.png"/>
+            <caption class="deo:Caption" id="93" page="5" column="1">Figure 2. Standard deviations and kurtosis of the first PCs in the MS English map. Inset: distributions of word projections onto the first 3 PCs normalized to unit area under the curve. doi:10.1371/journal.pone.0010921.g002</caption>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="100" page="5" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="101" page="5" column="2">5</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="102" page="5" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="103" page="6" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F3">
+            <image class="DoCO:Figure" src="5ac9.page_006.image_03.png" thmb="5ac9.page_006.image_03-thumb.png"/>
+            <caption class="deo:Caption" id="105" page="6" column="1">Figure 3. Semantic map correspondence across languages and methodologies. The scatter plots demonstrate numerical correspondence between MS English PC1 and both WN English PC1 (blue) and the first ANEW dimension, ‘pleasure’ (red). The dashed line represents the common linear fit. Captions show correlation coefficients (R), corresponding P-values, and numbers N of common words used for the analysis. All three distributions (MS English PC1, WN English PC1, and ANEW pleasure) are clearly bimodal. The correlations are highly significant even when analyzed for the two separate clusters of data. For words with negative MS English PC1 values, the correlation with the corresponding WN English PC1 values is R = 0.46 (p,10 210 , N = 3101); and with ANEW: R = 0.36 (p,10 27 , N = 226). For the positive MS English values, R = 0.40 for WN English (p,10 210 , N = 2825) and R = 0.39 for ANEW (p,10 28 , N = 225). doi:10.1371/journal.pone.0010921.g003</caption>
+          </region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="108" confidence="possible" page="6" column="1">Predictive Power of the Semantic Map</h2>
+          <region class="DoCO:TextChunk" id="155" page="6" column="1">As expected based on the form of the energy function H, words with similar meanings (synonyms) have similar proportions on the principal components of the map, i.e. small angles between their vectors ( <xref ref-type="fig" rid="F5" id="109" class="deo:Reference">Figure 5</xref>). In contrast, words with opposite meanings (antonyms) tend to have anti-parallel vectors. In particular, synonyms and antonyms in MS English had median angles of 13u and 170u, respectively (means of 21u and 165u). Less than 3% of synonym pairs have angles greater than 90u, and less than 1% of antonyms have angles smaller than 90u. Upon checking, these exceptions revealed rare instances of questionable assignments in the source dictionary, which the map effectively ‘‘corrects’’. For example, opposite and harmonizing are listed as synonyms in MS English, but their angle on the map, 145u, suggests otherwise. Although in most usage cases opposite and harmonizing would be considered antonyms (as predicted by the map) the assignment as synonym in the source dictionary may still be appropriate in specific contexts (such as in describing power balance, or musical tones). As an alternative example, hot and cool are typically antonyms (referring e.g. to weather or beverages), except when used idiomatically to describe an idea, a videogame, or a classmate.<marker type="column" number="2"/><marker type="block"/> Overall, given a pair of synonyms or antonyms in the dictionary, their dot product identifies the correct ‘‘onyms’’ relation with 99% accuracy. In particular, four real numbers associated with each word contain all essential information to identify antonyms among related terms: all semantic flavors of antonymy are reducible to four principal semantic dimensions. In contrast, random pairs (i.e., typically unrelated words) have an average angle of 90u, with less than 3% of values below 13u or above 170u. It is tempting to extrapolate these considerations and assume that proximity of two words in the map is sufficient to ensure a similarity of their meanings. However, this is not the case. Unrelated word pairs vastly outnumber synonyms (,1500:1) and antonyms (,7400:1). The majority of unrelated words pertains to separate semantic domains, and could not possibly be considered synonyms or antonyms. Even the tail ends of their angle distribution constitute a disruptive confounder of the semantic relations. Stated differently, given a particular word, it is fair to assume that, among all related terms, synonyms will be concen- trated in the neighborhood and antonyms in the antipodes. Nevertheless, unrelated words will still constitute the majority of terms even close to 0u and 180u. These unrelated words randomly end up in the proximity of a given term by virtue of their large number in the self-organizing reduction of the high number of initial dimensions into the low-dimensional principal component space. Therefore, the constructed semantic map of words differs from the high-dimensional semantic spaces typically obtained with<marker type="page" number="7"/><marker type="column" number="1"/><marker type="block"/> other existing approaches [<xref ref-type="bibr" rid="R4" id="118" class="deo:Reference">4</xref>, <xref ref-type="bibr" rid="R19" id="119" class="deo:Reference">19</xref>], in which the distance between any pair of embedded symbols reflects the whole semantic dissimilarity for a restricted contextual domain. Our low- dimensional map complements those local approaches by observing global semantic properties. Here, the distance between locations selectively measures the aspects of the dissimilarity broadly applicable to any context, without distinguishing between domain-specific semantic flavors. A pool of terms likely related to a given word is constituted by all synonyms of synonyms or, more generally, ‘‘onyms of onyms’’ of that word. In particular, words which are onyms of onyms are usually in overlapping semantic domains, but not all words in overlapping domains are onyms of onyms. Having a synonym or antonym in common does not guarantee, but strongly indicates, that two words pertain to overlapping semantic domains. Thus,<marker type="column" number="2"/><marker type="block"/> within the pool of onyms of onyms, one could expect angular information to be a powerful predictor of semantic content. To test this hypothesis, we sampled 20 words from MS English and WN English, and computed the cosines of their angle with each of their onyms of onyms. We then assigned the binary values of +1 and 21 to the onyms of onyms that were also reported as synonyms or antonyms, respectively. The correlation between the cosines and binary values was statistically significant in all 40 cases (<xref ref-type="table" rid="T2" id="121" class="deo:Reference">Table 2</xref>). In addition to finding systematically significant numerical values in all 40 cases examined, this compilation reveals the consistent ability of the map to identify, based on the dot products, ‘‘new’’ synonyms and antonyms not explicitly listed as such in the dictionary. A specific example may constitute a useful illustration. In WN, the term antonym has 22 onyms of onyms. Among these, the two terms with the largest positive dot products are the only<marker type="page" number="8"/><marker type="column" number="1"/><marker type="block"/> listed synonyms, namely opposite_word (1.000) and opposite. Similarly, the words with the largest negative dot products are the only two listed antonyms, namely equivalent word (20.999) and synonym (20.998). The two onyms of onyms with the positive and negative dot products closest to zero lack any synonym/antonym content: cyclic (0.190) and secondary (20.066). These qualitative observations 28 are reflected in an R value of 1.00 and a P value of 3.3?10 . The term antonym is not part of the MS English core, but the word opposite is, and has 306 onyms of onyms. In this case, however, the same analysis returns relatively weaker R and P values of 0.44 and 0.025, respectively. A closer inspection to the list of onyms of onyms explains this apparent inconsistency and further corroborates the predictive value of the semantic map. The top ranking positive dot products correspond to terms listed as synonyms, namely dissimilarity (1.00), the other extreme, and contra (both 0.98). Next in the list, while not reported as synonyms, are nonetheless correct predictions: heretical, heterodox, competing, and contrary to accepted belief (all 0.98), followed by contending and hotheaded (both 0.97). Interestingly, the next terms at similar values are again listed as synonyms: inverse, opposing (both 0.97), deviating, and contrary (both 0.96). The lower correlation value for opposite in MS is due to a few outliers, such as harmonizing (dot product of 20.80, but listed as synonym). As discussed above (see footnote 1), even in these cases<marker type="column" number="2"/><marker type="block"/> the map intuitively appears to be robust enough to actually ‘‘correct’’ mistaken assignments (i.e., harmonizing is more akin to an antonym than a synonym of opposite). To quantify this impression, we computed the correlation for the subset of the onyms of onyms that are listed as synonyms or antonyms of the word opposite in the independent WN dictionary, but not in MS. In other words, we ‘‘tested’’ the predicted assignment of the MS semantic map based on the available data in the WN dictionary. The resulting R and P values (0.99 and 0.005) were statistically significant, and the identified terms were consistent both among the new synonym (different, dot product of 0.94) and new antonyms (like, similar, and same, at 20.74, 20.93, and 20.94, respectively). Furthermore, the words with even more extreme negative dot products, although not explicitly listed in either dictionary, were all consistent with antonym meanings: resemblance, congruence (both 20.96), analogy (20.97), equivalence, and similarity (both 20.99). A potential practical application of the described semantic map consists of specifying the connotation as well as the general meaning (denotation) of words. An illustration of considering connotation is provided in <xref ref-type="fig" rid="F6" id="135" class="deo:Reference">Figure 6</xref>, where onyms of onyms of two words (control and delicate) are plotted in the plane of the first two principal components. In general, terms are located in the proper octant according to the connotation of their meaning (‘‘good’’, ‘‘good/exciting’’, ‘‘exciting’’, ‘‘bad/exciting’’, ‘‘bad’’, ‘‘bad/calm- ing’’, ‘‘calming’’, ‘‘good/calming’’). For instance, the term control can be substituted with a ‘‘good’’ connotation by organize, or with a<marker type="page" number="9"/><marker type="column" number="1"/><marker type="block"/> ‘‘bad’’ connotation as curb. Likewise, delicate can connote a ‘‘calming’’ semantic as soft or an ‘‘exciting’’ semantic as personal. Moreover, the vector representation of words in this map has both absolute and relative meanings. For example, the terms okay and good lie in the same quadrant of the map with an angle of 10u between them and can be considered ‘‘absolute’’ synonyms. In particular, they both have a positive value in the first component (1.36 and 2.13, respectively). However, with respect to the position of fine, these two terms lie on opposite sides (i.e., the angle between the vector connecting fine and okay and that connecting fine and good is greater than 90u). Relative to fine (whose value in the first component is 1.70), the term okay has actually a negative valence (20.34), whereas the term good has a positive one (0.43). The length of the vector can also be interpreted as a measure of the semantic component of a word measured by its main map<marker type="column" number="2"/><marker type="block"/> dimensions, i.e. the aspect of the word meaning that distinguishes between antonym and synonym relations across most contexts. For example, the term relevant has greater vector length (1.33) than the term pertinent (1.15), but smaller than the term important (1.90). The word closest to the center is emigrant (vector length 0.36). Despite its definite meaning, this word is relatively neutral with respect to the main semantic dimensions of the map. The distribution of lengths over the whole dictionary (<xref ref-type="fig" rid="F7A" id="144" class="deo:Reference">Figure 7A</xref>) shows a median meaning of 0.93 (m6s = 0.9860.23). In contrast, the average semantics of the dictionary computed as the vector mean of all words nearly coincides with the origin of coordinates, i.e. the point of ‘‘no meaning’’ (first three components: 20.03360.006, 0.08060.004, and 0.00460.002). However, words have different usage frequency in language (<xref ref-type="fig" rid="F7B" id="145" class="deo:Reference">Figure 7B</xref>). For example, the term doctor (which is used on average<marker type="page" number="10"/><marker type="column" number="1"/><marker type="block"/> every 5511 words) is 26 times more common than the term professor. It is thus possible to compute an overall ‘‘concept mean’’, as the frequency-weighted average position of all words in the semantic map. Such measure captures the most representative meaning composed across a particular language (<xref ref-type="fig" rid="F7C" id="154" class="deo:Reference">Figure 7C</xref>). In English, this vector has a significant length (close to 0.5) and a non- uniform contribution of principal components. In particular, the significantly positive projection on the first axis (.0.5) corresponds to a ‘‘good’’ semantic, while all other dimensions have non- significant values. The same holds for the difference between the frequency-weighted and the absolute vector means. Thus, positive words are used more frequently in English than negative words 218 (P,10 ), while there is no significant preference in the other semantic dimensions (all three P.0.3).</region>
+          <outsider class="DoCO:TextBox" type="footer" id="112" page="6" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="113" page="6" column="2">6</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="114" page="6" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="115" page="7" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:TableBox" id="T1">
+            <caption class="deo:Caption" id="116" confidence="possible" page="7" column="1">Table 1. Sorted lists of words and antonym pairs.</caption>
+            <content>
+              <table class="DoCO:Table" number="1" page="7">
+                <thead class="table">
+                  <tr class="table">
+                    <th class="table"></th>
+                    <th class="table"></th>
+                    <th class="table"> PC #1</th>
+                    <th class="table"> (valence)</th>
+                    <th class="table"> PC #2</th>
+                    <th class="table"> (arousal)</th>
+                    <th class="table"> PC #3</th>
+                    <th class="table"> (freedom)</th>
+                    <th class="table"> PC #4</th>
+                    <th class="table"> (mixed)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> exciting ,</td>
+                    <td class="table"> calming,</td>
+                    <td class="table"> close ,</td>
+                    <td class="table"> open ,</td>
+                    <td class="table"> rich ,</td>
+                    <td class="table"> basic ,</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> positive</td>
+                    <td class="table"> negative</td>
+                    <td class="table"> tough</td>
+                    <td class="table"> easy</td>
+                    <td class="table"> dominate</td>
+                    <td class="table"> free</td>
+                    <td class="table"> extra</td>
+                    <td class="table"> core</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> MS Word</td>
+                    <td class="table"> Individual</td>
+                    <td class="table"> clear</td>
+                    <td class="table"> decline</td>
+                    <td class="table"> stiff</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> close</td>
+                    <td class="table"> release</td>
+                    <td class="table"> later</td>
+                    <td class="table"> basic</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> English</td>
+                    <td class="table"> words</td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> well</td>
+                    <td class="table"> poor</td>
+                    <td class="table"> hard</td>
+                    <td class="table"> relaxed</td>
+                    <td class="table"> final</td>
+                    <td class="table"> go</td>
+                    <td class="table"> advanced</td>
+                    <td class="table"> earlier</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> accept</td>
+                    <td class="table"> stop</td>
+                    <td class="table"> heavy</td>
+                    <td class="table"> mild</td>
+                    <td class="table"> detain</td>
+                    <td class="table"> fire</td>
+                    <td class="table"> soggy</td>
+                    <td class="table"> concise</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> praise</td>
+                    <td class="table"> uncertain</td>
+                    <td class="table"> serious</td>
+                    <td class="table"> easy</td>
+                    <td class="table"> restraint</td>
+                    <td class="table"> free</td>
+                    <td class="table"> slowly</td>
+                    <td class="table"> plain</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> support</td>
+                    <td class="table"> fail</td>
+                    <td class="table"> extreme</td>
+                    <td class="table"> gentle</td>
+                    <td class="table"> confine</td>
+                    <td class="table"> freedom</td>
+                    <td class="table"> far ahead</td>
+                    <td class="table"> quickly</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> good</td>
+                    <td class="table"> reject</td>
+                    <td class="table"> deep</td>
+                    <td class="table"> modest</td>
+                    <td class="table"> swallow</td>
+                    <td class="table"> independent</td>
+                    <td class="table"> well ahead</td>
+                    <td class="table"> crisp</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> improve</td>
+                    <td class="table"> bad</td>
+                    <td class="table"> loud</td>
+                    <td class="table"> quiet</td>
+                    <td class="table"> restrain</td>
+                    <td class="table"> new</td>
+                    <td class="table"> far along</td>
+                    <td class="table"> austere</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> Antonyms</td>
+                    <td class="table"> accept</td>
+                    <td class="table"> decline</td>
+                    <td class="table"> hard</td>
+                    <td class="table"> soft</td>
+                    <td class="table"> restrain</td>
+                    <td class="table"> release</td>
+                    <td class="table"> advanced</td>
+                    <td class="table"> basic</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> good</td>
+                    <td class="table"> poor</td>
+                    <td class="table"> fierce</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> close</td>
+                    <td class="table"> open</td>
+                    <td class="table"> later</td>
+                    <td class="table"> earlier</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> praise</td>
+                    <td class="table"> criticize</td>
+                    <td class="table"> tough</td>
+                    <td class="table"> easy</td>
+                    <td class="table"> restraint</td>
+                    <td class="table"> freedom</td>
+                    <td class="table"> soggy</td>
+                    <td class="table"> crisp</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> well</td>
+                    <td class="table"> badly</td>
+                    <td class="table"> loud</td>
+                    <td class="table"> quiet</td>
+                    <td class="table"> restricted</td>
+                    <td class="table"> free</td>
+                    <td class="table"> wordy</td>
+                    <td class="table"> concise</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> happy</td>
+                    <td class="table"> sad</td>
+                    <td class="table"> heavy</td>
+                    <td class="table"> insignificant</td>
+                    <td class="table"> experienced</td>
+                    <td class="table"> new</td>
+                    <td class="table"> slowly</td>
+                    <td class="table"> quickly</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> WordNet</td>
+                    <td class="table"> Ind. words</td>
+                    <td class="table"> good</td>
+                    <td class="table"> ill</td>
+                    <td class="table"> rough</td>
+                    <td class="table"> smooth</td>
+                    <td class="table"> close_up</td>
+                    <td class="table"> free</td>
+                    <td class="table"> inclined</td>
+                    <td class="table"> disinclined</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> bright</td>
+                    <td class="table"> bad</td>
+                    <td class="table"> stormy</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> block</td>
+                    <td class="table"> open</td>
+                    <td class="table"> destroyed</td>
+                    <td class="table"> unloving</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> superior</td>
+                    <td class="table"> poor</td>
+                    <td class="table"> heavy</td>
+                    <td class="table"> uncolored</td>
+                    <td class="table"> bound</td>
+                    <td class="table"> available</td>
+                    <td class="table"> loving</td>
+                    <td class="table"> outside</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> animal</td>
+                    <td class="table"> badly</td>
+                    <td class="table"> hard</td>
+                    <td class="table"> easy</td>
+                    <td class="table"> covert</td>
+                    <td class="table"> new</td>
+                    <td class="table"> supportive</td>
+                    <td class="table"> unsupportive</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> well</td>
+                    <td class="table"> unsaturated</td>
+                    <td class="table"> wild</td>
+                    <td class="table"> quiet</td>
+                    <td class="table"> confine</td>
+                    <td class="table"> unrestricted</td>
+                    <td class="table"> encouraging</td>
+                    <td class="table"> vertical</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> Antonyms</td>
+                    <td class="table"> good</td>
+                    <td class="table"> inferior</td>
+                    <td class="table"> rough</td>
+                    <td class="table"> smooth</td>
+                    <td class="table"> close_up</td>
+                    <td class="table"> free</td>
+                    <td class="table"> inclined</td>
+                    <td class="table"> disinclined</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> healthy</td>
+                    <td class="table"> ill</td>
+                    <td class="table"> dirty</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> covert</td>
+                    <td class="table"> open</td>
+                    <td class="table"> loving</td>
+                    <td class="table"> unloving</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> intelligent</td>
+                    <td class="table"> dull</td>
+                    <td class="table"> heavy</td>
+                    <td class="table"> fine</td>
+                    <td class="table"> old</td>
+                    <td class="table"> new</td>
+                    <td class="table"> apt</td>
+                    <td class="table"> vertical</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> superior</td>
+                    <td class="table"> bad</td>
+                    <td class="table"> dark</td>
+                    <td class="table"> thin</td>
+                    <td class="table"> block</td>
+                    <td class="table"> release</td>
+                    <td class="table"> supportive</td>
+                    <td class="table"> discouraging</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> fit</td>
+                    <td class="table"> unfit</td>
+                    <td class="table"> troubled</td>
+                    <td class="table"> quiet</td>
+                    <td class="table"> close</td>
+                    <td class="table"> leaky</td>
+                    <td class="table"> encouraging</td>
+                    <td class="table"> unsupportive</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> tasty</td>
+                    <td class="table"> poor</td>
+                    <td class="table"> painful</td>
+                    <td class="table"> easy</td>
+                    <td class="table"> confine</td>
+                    <td class="table"> phlegmy</td>
+                    <td class="table"> synchronous</td>
+                    <td class="table"> perpendicular</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> Transl.</td>
+                    <td class="table"> I.W.</td>
+                    <td class="table"> happy</td>
+                    <td class="table"> forgery</td>
+                    <td class="table"> excessive</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> catch</td>
+                    <td class="table"> to release</td>
+                    <td class="table"> neophyte</td>
+                    <td class="table"> lost</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> French</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> praise</td>
+                    <td class="table"> weakened</td>
+                    <td class="table"> extreme</td>
+                    <td class="table"> modest</td>
+                    <td class="table"> taken</td>
+                    <td class="table"> freedom</td>
+                    <td class="table"> fixed</td>
+                    <td class="table"> monitor</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> Antonyms</td>
+                    <td class="table"> some</td>
+                    <td class="table"> forgery</td>
+                    <td class="table"> impetuous</td>
+                    <td class="table"> calm</td>
+                    <td class="table"> subjects</td>
+                    <td class="table"> release</td>
+                    <td class="table"> retained</td>
+                    <td class="table"> gave up</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> happy</td>
+                    <td class="table"> cut down</td>
+                    <td class="table"> enormous</td>
+                    <td class="table"> modest</td>
+                    <td class="table"> taken</td>
+                    <td class="table"> to give up</td>
+                    <td class="table"> neophyte</td>
+                    <td class="table"> monitor</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> to approve</td>
+                    <td class="table"> to refuse</td>
+                    <td class="table"> extreme</td>
+                    <td class="table"> moderated</td>
+                    <td class="table"> controls</td>
+                    <td class="table"> delivered</td>
+                    <td class="table"> subjugated</td>
+                    <td class="table"> lost</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> agreement</td>
+                    <td class="table"> contradict</td>
+                    <td class="table"> disproportionate</td>
+                    <td class="table"> thin</td>
+                    <td class="table"> tightened</td>
+                    <td class="table"> smooth</td>
+                    <td class="table"> bound</td>
+                    <td class="table"> released</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> Each of the</td>
+                    <td class="table.strange"> first 4 PCs for each</td>
+                    <td class="table.strange"> of three</td>
+                    <td class="table.strange"> corpora (MS English,</td>
+                    <td class="table.strange"> WN English, MS</td>
+                    <td class="table.strange"> French) is described</td>
+                    <td class="table.strange"> by a list of the</td>
+                    <td class="table.strange"> top and bottom</td>
+                    <td class="table.strange"> individual words</td>
+                    <td class="table.strange"> sorted by a</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> combination</td>
+                    <td class="table.strange"> of their projection</td>
+                    <td class="table.strange"> on, and</td>
+                    <td class="table.strange"> alignment with, the</td>
+                    <td class="table.strange"> corresponding axis, as</td>
+                    <td class="table.strange"> well as by similarly</td>
+                    <td class="table.strange"> sorted pairs of</td>
+                    <td class="table.strange"> antonyms. A total</td>
+                    <td class="table.strange"> of 21 words are</td>
+                    <td class="table.strange"> repeated within</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> components,</td>
+                    <td class="table.strange"> and they all involve</td>
+                    <td class="table.strange"> the first 3</td>
+                    <td class="table.strange"> PCs: 13 between</td>
+                    <td class="table.strange"> MS English and WN</td>
+                    <td class="table.strange"> English (bold), 5</td>
+                    <td class="table.strange"> between MS English</td>
+                    <td class="table.strange"> and MS French</td>
+                    <td class="table.strange"> (italic), 1 between</td>
+                    <td class="table.strange"> WN English and</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> MS French</td>
+                    <td class="table.strange"> and 2 among all</td>
+                    <td class="table.strange"> three (bold italic).</td>
+                    <td class="table.strange"> A total of 13</td>
+                    <td class="table.strange"> words are repeated</td>
+                    <td class="table.strange"> across components,</td>
+                    <td class="table.strange"> all except 1</td>
+                    <td class="table.strange"> involving PC4.</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"></td>
+                    <td class="table.strange"> doi:10.1371/journal.pone.0010921.t001 doi:10.1371/journal.pone.0010921.t001</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </content>
+            <region class="TableInfo" id="117" confidence="possible" page="7" column="1">PC #1 (valence) PC #2 (arousal) PC #3 (freedom) PC #4 (mixed) exciting , calming, close , open , rich , basic , positive negative tough easy dominate free extra core MS Word Individual clear decline stiff calm close release later basic English words well poor hard relaxed final go advanced earlier accept stop heavy mild detain fire soggy concise praise uncertain serious easy restraint free slowly plain support fail extreme gentle confine freedom far ahead quickly good reject deep modest swallow independent well ahead crisp improve bad loud quiet restrain new far along austere Antonyms accept decline hard soft restrain release advanced basic good poor fierce calm close open later earlier praise criticize tough easy restraint freedom soggy crisp well badly loud quiet restricted free wordy concise happy sad heavy insignificant experienced new slowly quickly WordNet Ind. words good ill rough smooth close_up free inclined disinclined bright bad stormy calm block open destroyed unloving superior poor heavy uncolored bound available loving outside animal badly hard easy covert new supportive unsupportive well unsaturated wild quiet confine unrestricted encouraging vertical Antonyms good inferior rough smooth close_up free inclined disinclined healthy ill dirty calm covert open loving unloving intelligent dull heavy fine old new apt vertical superior bad dark thin block release supportive discouraging fit unfit troubled quiet close leaky encouraging unsupportive tasty poor painful easy confine phlegmy synchronous perpendicular Transl. I.W. happy forgery excessive calm catch to release neophyte lost French praise weakened extreme modest taken freedom fixed monitor Antonyms some forgery impetuous calm subjects release retained gave up happy cut down enormous modest taken to give up neophyte monitor to approve to refuse extreme moderated controls delivered subjugated lost agreement contradict disproportionate thin tightened smooth bound released Each of the first 4 PCs for each of three corpora (MS English, WN English, MS French) is described by a list of the top and bottom individual words sorted by a combination of their projection on, and alignment with, the corresponding axis, as well as by similarly sorted pairs of antonyms. A total of 21 words are repeated within components, and they all involve the first 3 PCs: 13 between MS English and WN English (bold), 5 between MS English and MS French (italic), 1 between WN English and MS French and 2 among all three (bold italic). A total of 13 words are repeated across components, all except 1 involving PC4. doi:10.1371/journal.pone.0010921.t001</region>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="123" page="7" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="124" page="7" column="2">7</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="125" page="7" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="126" page="8" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F4">
+            <image class="DoCO:Figure" src="5ac9.page_008.image_04.png" thmb="5ac9.page_008.image_04-thumb.png"/>
+            <caption class="deo:Caption" id="129" page="8" column="1">Figure 4. Values of the first four PCs for four different words in the MS English semantic map. PC coordinate values are represented in the bars, while the corresponding numbers express these quantities as percentages of the standard deviation of each PC (cf. <xref ref-type="fig" rid="F2" id="128" class="deo:Reference">Figure 2</xref>). doi:10.1371/journal.pone.0010921.g004</caption>
+          </region>
+          <region class="DoCO:FigureBox" id="F5">
+            <image class="DoCO:Figure" src="5ac9.page_008.image_05.png" thmb="5ac9.page_008.image_05-thumb.png"/>
+            <caption class="deo:Caption" id="132" page="8" column="1">Figure 5. Angular distributions of word pairs on the map. The plots represent histograms of angle distributions for synonyms (1, blue), antonyms (2, red), onyms of onyms not listed as onyms (3, solid black line), and unrelated words (4, dashed line). Here ‘‘onym’’ stands for ‘‘synonym or antonym’’, and onyms of onyms include synonyms of synonyms, synonyms of antonyms, antonyms of synonyms, and antonyms of antonyms. doi:10.1371/journal.pone.0010921.g005</caption>
+          </region>
+          <region class="DoCO:TableBox" id="T2">
+            <caption class="deo:Caption" id="133" confidence="possible" page="8" column="2">Table 2. Assignment of synonyms/antonyms among related words.</caption>
+            <content>
+              <h1 class="table"> Corpus MS English WN English</h1>
+              <table class="DoCO:Table" number="2" page="8">
+                <thead class="table">
+                  <tr class="table">
+                    <th class="table"> Word</th>
+                    <th class="table"> N</th>
+                    <th class="table"> R</th>
+                    <th class="table"> P</th>
+                    <th class="table"> N</th>
+                    <th class="table"> R</th>
+                    <th class="table"> P</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table">
+                    <td class="table"> above</td>
+                    <td class="table"> 232</td>
+                    <td class="table"> 0.92</td>
+                    <td class="table"> 1.8?10 28</td>
+                    <td class="table"> 67</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 4.1?10 222</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> below</td>
+                    <td class="table"> 122</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 2.4?10 225</td>
+                    <td class="table"> 64</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 2.2?10 227</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> good</td>
+                    <td class="table"> 2342</td>
+                    <td class="table"> 0.98</td>
+                    <td class="table"> 7.0?10 270</td>
+                    <td class="table"> 3470</td>
+                    <td class="table"> 0.97</td>
+                    <td class="table"> 7.8?10 2140</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> bad</td>
+                    <td class="table"> 1760</td>
+                    <td class="table"> 0.85</td>
+                    <td class="table"> 2.3?10 235</td>
+                    <td class="table"> 2903</td>
+                    <td class="table"> 0.96</td>
+                    <td class="table"> 1.0?10 285</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> exciting</td>
+                    <td class="table"> 665</td>
+                    <td class="table"> 0.99</td>
+                    <td class="table"> 1.9?10 245</td>
+                    <td class="table"> 199</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 1.9?10 216</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> calming</td>
+                    <td class="table"> 296</td>
+                    <td class="table"> 0.89</td>
+                    <td class="table"> 7.3?10 27</td>
+                    <td class="table"> 74</td>
+                    <td class="table"> 0.93</td>
+                    <td class="table"> 4.9?10 213</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> open</td>
+                    <td class="table"> 2271</td>
+                    <td class="table"> 0.95</td>
+                    <td class="table"> 1.5?10 283</td>
+                    <td class="table"> 2673</td>
+                    <td class="table"> 0.95</td>
+                    <td class="table"> 1.0?10 282</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> close</td>
+                    <td class="table"> 3077</td>
+                    <td class="table"> 0.78</td>
+                    <td class="table"> 1.3?10 234</td>
+                    <td class="table"> 2759</td>
+                    <td class="table"> 0.96</td>
+                    <td class="table"> 1.2?10 288</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> voluntary</td>
+                    <td class="table"> 328</td>
+                    <td class="table"> 0.83</td>
+                    <td class="table"> 4.8?10 27</td>
+                    <td class="table"> 229</td>
+                    <td class="table"> 0.89</td>
+                    <td class="table"> 5.0?10 217</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> basic</td>
+                    <td class="table"> 1105</td>
+                    <td class="table"> 0.76</td>
+                    <td class="table"> 4.4?10 212</td>
+                    <td class="table"> 489</td>
+                    <td class="table"> 0.78</td>
+                    <td class="table"> 2.5?10 212</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> central</td>
+                    <td class="table"> 502</td>
+                    <td class="table"> 0.98</td>
+                    <td class="table"> 5.8?10 229</td>
+                    <td class="table"> 1217</td>
+                    <td class="table"> 0.91</td>
+                    <td class="table"> 2.4?10 210</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> peripheral</td>
+                    <td class="table"> 215</td>
+                    <td class="table"> 0.92</td>
+                    <td class="table"> 2.5?10 26</td>
+                    <td class="table"> 350</td>
+                    <td class="table"> 0.88</td>
+                    <td class="table"> 1.4?10 211</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> take</td>
+                    <td class="table"> 3219</td>
+                    <td class="table"> 0.40</td>
+                    <td class="table"> 4.3?10 27</td>
+                    <td class="table"> 1096</td>
+                    <td class="table"> 0.68</td>
+                    <td class="table"> 7.4?10 228</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> give</td>
+                    <td class="table"> 2197</td>
+                    <td class="table"> 0.39</td>
+                    <td class="table"> 3.2?10 24</td>
+                    <td class="table"> 1005</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 3.1?10 27</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> increase</td>
+                    <td class="table"> 2111</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 8.2?10 2154</td>
+                    <td class="table"> 228</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 1.2?10 220</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> decrease</td>
+                    <td class="table"> 1317</td>
+                    <td class="table"> 0.98</td>
+                    <td class="table"> 4.4?10 256</td>
+                    <td class="table"> 88</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 2.1?10 219</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> boring</td>
+                    <td class="table"> 834</td>
+                    <td class="table"> 0.97</td>
+                    <td class="table"> 8.6?10 236</td>
+                    <td class="table"> 310</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 1.8?10 221</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> soothing</td>
+                    <td class="table"> 445</td>
+                    <td class="table"> 0.95</td>
+                    <td class="table"> 2.4?10 215</td>
+                    <td class="table"> 68</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 1.4?10 29</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> catastrophic</td>
+                    <td class="table"> 128</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> ,10 2256</td>
+                    <td class="table"> 96</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 8.2?10 28</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> triumphant</td>
+                    <td class="table"> 207</td>
+                    <td class="table"> 0.98</td>
+                    <td class="table"> 2.5?10 212</td>
+                    <td class="table"> 70</td>
+                    <td class="table"> 1.00</td>
+                    <td class="table"> 6.0?10 28</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> Assignment of</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"> synonyms/antonyms synonyms/antonyms</td>
+                    <td class="table.strange"> among</td>
+                    <td class="table.strange"> related</td>
+                    <td class="table.strange"> words. N is</td>
+                    <td class="table.strange"> the number of</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> onyms of onyms</td>
+                    <td class="table.strange"> of each</td>
+                    <td class="table.strange"> listed</td>
+                    <td class="table.strange"> word in either</td>
+                    <td class="table.strange"> corpus.</td>
+                    <td class="table.strange"> R is the</td>
+                    <td class="table.strange"> correlation</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> coefficient</td>
+                    <td class="table.strange"> between the</td>
+                    <td class="table.strange"> dot</td>
+                    <td class="table.strange"> product of the of</td>
+                    <td class="table.strange"> onyms of</td>
+                    <td class="table.strange"> onyms</td>
+                    <td class="table.strange"> with the original</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> listed word,</td>
+                    <td class="table.strange"> and a binary</td>
+                    <td class="table.strange"> value</td>
+                    <td class="table.strange"> indicating if</td>
+                    <td class="table.strange"> each onym</td>
+                    <td class="table.strange"> of onym</td>
+                    <td class="table.strange"> is listed as a</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> synonym (1)</td>
+                    <td class="table.strange"> or antonym</td>
+                    <td class="table.strange"> (21)</td>
+                    <td class="table.strange"> of that word. P</td>
+                    <td class="table.strange"> is the</td>
+                    <td class="table.strange"> probability probability</td>
+                    <td class="table.strange"> to obtain such</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> correlation by</td>
+                    <td class="table.strange"> chance.</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"></td>
+                    <td class="table.strange"> doi:10.1371/journal.pone.0010921.t002 doi:10.1371/journal.pone.0010921.t002</td>
+                    <td class="table.strange"> doi:10.1371/journal.pone.0010921.t002</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </content>
+            <region class="TableInfo" id="134" confidence="possible" page="8" column="2">Corpus MS English WN English Word N R P N R P above 232 0.92 1.8?10 28 67 1.00 4.1?10 222 below 122 1.00 2.4?10 225 64 1.00 2.2?10 227 good 2342 0.98 7.0?10 270 3470 0.97 7.8?10 2140 bad 1760 0.85 2.3?10 235 2903 0.96 1.0?10 285 exciting 665 0.99 1.9?10 245 199 1.00 1.9?10 216 calming 296 0.89 7.3?10 27 74 0.93 4.9?10 213 open 2271 0.95 1.5?10 283 2673 0.95 1.0?10 282 close 3077 0.78 1.3?10 234 2759 0.96 1.2?10 288 voluntary 328 0.83 4.8?10 27 229 0.89 5.0?10 217 basic 1105 0.76 4.4?10 212 489 0.78 2.5?10 212 central 502 0.98 5.8?10 229 1217 0.91 2.4?10 210 peripheral 215 0.92 2.5?10 26 350 0.88 1.4?10 211 take 3219 0.40 4.3?10 27 1096 0.68 7.4?10 228 give 2197 0.39 3.2?10 24 1005 1.00 3.1?10 27 increase 2111 1.00 8.2?10 2154 228 1.00 1.2?10 220 decrease 1317 0.98 4.4?10 256 88 1.00 2.1?10 219 boring 834 0.97 8.6?10 236 310 1.00 1.8?10 221 soothing 445 0.95 2.4?10 215 68 1.00 1.4?10 29 catastrophic 128 1.00 ,10 2256 96 1.00 8.2?10 28 triumphant 207 0.98 2.5?10 212 70 1.00 6.0?10 28 Assignment of synonyms/antonyms among related words. N is the number of onyms of onyms of each listed word in either corpus. R is the correlation coefficient between the dot product of the of onyms of onyms with the original listed word, and a binary value indicating if each onym of onym is listed as a synonym (1) or antonym (21) of that word. P is the probability to obtain such correlation by chance. doi:10.1371/journal.pone.0010921.t002</region>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="137" page="8" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="138" page="8" column="2">8</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="139" page="8" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="140" page="9" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F6">
+            <image class="DoCO:Figure" src="5ac9.page_009.image_06.png" thmb="5ac9.page_009.image_06-thumb.png"/>
+            <caption class="deo:Caption" id="142" page="9" column="1">Figure 6. Semantics of the cognitive map (MS English): examples of connotation mapping. For each of the two representative (bold and circled) words, control and delicate, 8 synonyms are selected such that they nearly uniformly occupy all quadrants. doi:10.1371/journal.pone.0010921.g006</caption>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="147" page="9" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="148" page="9" column="2">9</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="149" page="9" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="150" page="10" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F7">
+            <image class="DoCO:Figure" src="5ac9.page_010.image_07.png" thmb="5ac9.page_010.image_07-thumb.png"/>
+            <caption class="deo:Caption" id="153" page="10" column="1">Figure 7. Semantic characteristics of the frequency of word usage. A: cumulative distribution of vector length of all words in MS English, with dotted horizontal lines at the 2.5 th , 50 th , and 97.5 th percentiles. The arrow indicates the mean weighted by the British National Corpus (BNC) frequency distribution. B: MS English word sorting by the frequency of their usage according to two independent sources (see Materials and Methods): Australian database (blue) and BNC (red). C: Values of the first 4 PCs of the weighted average of all words according to the Australian database frequencies. As in <xref ref-type="fig" rid="F4" id="152" class="deo:Reference">Figure 4</xref>, the bars and corresponding numbers represent the PC coordinate values and their percentage of the standard deviation of each PC (in the case of BNC frequencies, the corresponding numbers are: 64.0+7.5%, 13.3+6.4%, 215.4+11.9%, and 10.2+6.4%). Standard errors are reported for both bars (as whiskers) and numbers. Only the first component is statistically significant. doi:10.1371/journal.pone.0010921.g007</caption>
+          </region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="156" confidence="possible" page="10" column="1">Statistical Cross-Corpus Semantic Comparison</h2>
+          <region class="DoCO:TextChunk" id="174" page="10" column="1">The semantic characterization of the map principal components also enables a direct comparison across corpora, languages, and data types. As mentioned earlier, the first three components, but not the fourth, demonstrate high consistency across independent corpora (MS English vs. WN English) and languages (cf. MS French, <xref ref-type="table" rid="T1" id="157" class="deo:Reference">Table 1</xref>). To extend the comparison of principal semantic components to a quantitative measurement across additional corpora and languages, we also Google-translated the MS German and MS Spanish dictionaries into English. For the scope of this analysis, each corpus (after translation as applicable) was limited to the set of words that overlapped with the MS English core dictionary. For example, the 15,783 MS English core words and the 20,477 WN English core words have 5926 terms in common. For MS French, the overlap was 4704 English words, mapped onto from 19,944 French terms, representing approximately 30% of the MS French core dictionary. Many French words projected onto single English words, because word inflections are listed separately in the MS French thesaurus; the same occurred in German. We then extracted several correlation measures between the word coordinates from each of the separate semantic maps (WN English, MS French, MS German, and MS Spanish) and the MS English map. First, for each pair of corpora, we computed a matrix of PC-to- PC correlation coefficients (<xref ref-type="table" rid="T3" id="158" class="deo:Reference">Table 3</xref>). Results demonstrate a systematic two-way semantic correspondence of the first three PCs<marker type="column" number="2"/><marker type="block"/> for all compared pairs of corpora. In particular, each of the first three PC in every corpus displays the highest correlation coefficient with the corresponding PC of the other corpus in the pair. These values are all statistically significant (p,0.001). Such correspondence only holds for the fourth component between MS English and WN English, but not across different languages. Dimensions beyond the fourth are not statistically significant in MS English and are thus not represented in this table. Moreover, we compared the first three PCs of MS English with the three original dimensions of ANEW, whose semantics are identified as pleasure, arousal, and dominance. In this case, the two-way semantic correspondence was only revealed on the first two components. This is not surprising given that the coordinates of the ANEW dataset are not internally orthogonal. In fact, the first and third coordinates are highly correlated within the ANEW sample. We also computed the correlation of the first 4 MS English PCs with each of the 32 Paivio norms [<xref ref-type="bibr" rid="R20" id="160" class="deo:Reference">20</xref>] and of the 51 Rubin properties [<xref ref-type="bibr" rid="R21" id="161" class="deo:Reference">21</xref>], which constitute, to the best of our knowledge, the largest available collections of psychometric measures. However, none of these attempts resulted in higher correlation coefficients than those found for ANEW. Next, we subjected each pair of corpora to canonical correlation analysis [<xref ref-type="bibr" rid="R22" id="162" class="deo:Reference">22</xref>] (CCA). CCA finds the basis vectors for two sets of multidimensional variables such that the correlations between the projections of the variables onto these basis vectors are mutually maximized. The first four CCA coefficients are reported in <xref ref-type="table" rid="T3" id="163" class="deo:Reference">Table 3</xref> for each pair of corpora. CCA rotates two distributions of points so as to align them for maximal correlation. Thus, the first CCA correlation must be, by construction, higher than (or equal to) the correlation between the first principal components independently obtained in the two sets. The fact that these values are extremely close between MS English and each of the other corpora (e.g. 0.78 vs. 0.73 for WN English, 0.75 vs. 0.74 for MS French, 0.83 vs. 0.80 for ANEW) suggests an excellent alignment of their intrinsic principal components. Moreover, the fact that the number of statistically significant canonical correlations (7 for WN English, French, and Spanish, and 6 for German) systematically exceed the number of significant dimensions in MS English (4) is a further indication of geometric consistency across corpora, even if the semantics no longer strictly correspond beyond the fourth dimension.<marker type="page" number="11"/><marker type="column" number="1"/><marker type="block"/> Finally, as an additional method of quantifying the linear relationships between pairs of corpora (i.e., two multidimensional variables), we defined an ‘‘overall correlation’’ OC (**) based on the norms of the covariant matrices, which are the natural generalization to higher dimensions of the concept of the variance of a scalar-valued random variable. The covariance matrix or dispersion matrix is a matrix of covariances between elements of a vector, and naturally generalizes to higher dimensions the concept of the variance of a scalar variable. The correlation coefficient for a pair of scalar variables is the ratio of their covariance to the product of their standard deviations. Our formulation (**) is a natural extension to variables in multiple dimensions. The formula is analogous to that of the Pearson correlation coefficient, and coincides with it in one dimension:<marker type="block"/> This measure characterizes the alignment of two distributions of points, each independently rotated to their internal principal components, throughout all of their dimensions. The overall correlation coefficient consistently assumed high values (between 0.68 and 0.80), always intermediate between the first canonical correlation and the correlation between first principal components.<marker type="column" number="2"/><marker type="block"/> This result of the cross-corpus comparison, as well as the qualitative assessment of the semantic content of the significant principal components, also proved to be generally robust with respect to alterations of the cost function parameters and/or the initial conditions in optimization. These findings indicate overall consistency and reliability across languages, datasets, and variations of the technique.</region>
+          <outsider class="DoCO:TextBox" type="footer" id="165" page="10" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="166" page="10" column="2">10</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="167" page="10" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="168" page="11" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:TableBox" id="T3">
+            <caption class="deo:Caption" id="169" confidence="possible" page="11" column="1">Table 3. Correlations of word coordinates across corpora.</caption>
+            <content>
+              <h1 class="table"> MS English</h1>
+              <table class="DoCO:Table" number="3" page="11">
+                <thead class="table">
+                  <tr class="table">
+                    <th class="table"></th>
+                    <th class="table"></th>
+                    <th class="table"> PC1</th>
+                    <th class="table"> PC2</th>
+                    <th class="table"> PC3</th>
+                    <th class="table"> PC4</th>
+                    <th class="table"> CCA</th>
+                    <th class="table"> Other parameters</th>
+                    <th class="table"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table">
+                    <td class="table"> WN English</td>
+                    <td class="table"> PC1</td>
+                    <td class="table"> 0.73</td>
+                    <td class="table"> 0.20</td>
+                    <td class="table"> 20.06</td>
+                    <td class="table"> 20.031</td>
+                    <td class="table"> 0.78</td>
+                    <td class="table"> 5926</td>
+                    <td class="table"> a</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC2</td>
+                    <td class="table"> 20.23</td>
+                    <td class="table"> 0.64</td>
+                    <td class="table"> 0.18</td>
+                    <td class="table"> 0.22</td>
+                    <td class="table"> 0.72</td>
+                    <td class="table"> 7</td>
+                    <td class="table"> b</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC3</td>
+                    <td class="table"> 0.12</td>
+                    <td class="table"> 20.13</td>
+                    <td class="table"> 0.57</td>
+                    <td class="table"> 0.13</td>
+                    <td class="table"> 0.63</td>
+                    <td class="table"> 6.6?10 24</td>
+                    <td class="table"> c</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC4</td>
+                    <td class="table"> 0.029</td>
+                    <td class="table"> 20.022</td>
+                    <td class="table"> 0.001</td>
+                    <td class="table"> 0.30</td>
+                    <td class="table"> 0.52</td>
+                    <td class="table"> 0.76</td>
+                    <td class="table"> d</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> MS French</td>
+                    <td class="table"> PC1</td>
+                    <td class="table"> 0.74</td>
+                    <td class="table"> 0.0057</td>
+                    <td class="table"> 0.0004</td>
+                    <td class="table"> 0.034</td>
+                    <td class="table"> 0.75</td>
+                    <td class="table"> 4704/19944</td>
+                    <td class="table"> a</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC2</td>
+                    <td class="table"> 20.01</td>
+                    <td class="table"> 0.41</td>
+                    <td class="table"> 0.24</td>
+                    <td class="table"> 0.14</td>
+                    <td class="table"> 0.54</td>
+                    <td class="table"> 7</td>
+                    <td class="table"> b</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC3</td>
+                    <td class="table"> 20.034</td>
+                    <td class="table"> 20.33</td>
+                    <td class="table"> 0.37</td>
+                    <td class="table"> 0.0097</td>
+                    <td class="table"> 0.49</td>
+                    <td class="table"> 2.0?10 22</td>
+                    <td class="table"> c</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC4</td>
+                    <td class="table"> 0.056</td>
+                    <td class="table"> 0.066</td>
+                    <td class="table"> 20.0058</td>
+                    <td class="table"> 0.021</td>
+                    <td class="table"> 0.27</td>
+                    <td class="table"> 0.74</td>
+                    <td class="table"> d</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> MS German</td>
+                    <td class="table"> PC1</td>
+                    <td class="table"> 0.73</td>
+                    <td class="table"> 0.037</td>
+                    <td class="table"> 0.025</td>
+                    <td class="table"> 0.056</td>
+                    <td class="table"> 0.78</td>
+                    <td class="table"> 5290/35464</td>
+                    <td class="table"> a</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC2</td>
+                    <td class="table"> 20.081</td>
+                    <td class="table"> 0.21</td>
+                    <td class="table"> 0.16</td>
+                    <td class="table"> 0.097</td>
+                    <td class="table"> 0.57</td>
+                    <td class="table"> 6</td>
+                    <td class="table"> b</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC3</td>
+                    <td class="table"> 0.049</td>
+                    <td class="table"> 20.16</td>
+                    <td class="table"> 0.26</td>
+                    <td class="table"> 0.029</td>
+                    <td class="table"> 0.46</td>
+                    <td class="table"> 1.1?10 24</td>
+                    <td class="table"> c</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC4</td>
+                    <td class="table"> 20.089</td>
+                    <td class="table"> 0.007</td>
+                    <td class="table"> 0.014</td>
+                    <td class="table"> 0.026</td>
+                    <td class="table"> 0.24</td>
+                    <td class="table"> 0.73</td>
+                    <td class="table"> d</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> MS Spanish</td>
+                    <td class="table"> PC1</td>
+                    <td class="table"> 0.67</td>
+                    <td class="table"> 0.037</td>
+                    <td class="table"> 20.046</td>
+                    <td class="table"> 20.014</td>
+                    <td class="table"> 0.71</td>
+                    <td class="table"> 1269/1269</td>
+                    <td class="table"> a</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC2</td>
+                    <td class="table"> 20.20</td>
+                    <td class="table"> 0.45</td>
+                    <td class="table"> 20.13</td>
+                    <td class="table"> 0.14</td>
+                    <td class="table"> 0.62</td>
+                    <td class="table"> 7</td>
+                    <td class="table"> b</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC3</td>
+                    <td class="table"> 0.17</td>
+                    <td class="table"> 20.056</td>
+                    <td class="table"> 0.46</td>
+                    <td class="table"> 0.066</td>
+                    <td class="table"> 0.60</td>
+                    <td class="table"> 0.005</td>
+                    <td class="table"> c</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> PC4</td>
+                    <td class="table"> 0.0014</td>
+                    <td class="table"> 0.33</td>
+                    <td class="table"> 0.19</td>
+                    <td class="table"> 0.18</td>
+                    <td class="table"> 0.45</td>
+                    <td class="table"> 0.68</td>
+                    <td class="table"> d</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"> ANEW</td>
+                    <td class="table"> D1</td>
+                    <td class="table"> 0.80</td>
+                    <td class="table"> 20.19</td>
+                    <td class="table"> 0.20</td>
+                    <td class="table"> 0.21</td>
+                    <td class="table"> 0.83</td>
+                    <td class="table"> 451</td>
+                    <td class="table"> a</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> D2</td>
+                    <td class="table"> 0.052</td>
+                    <td class="table"> 0.39</td>
+                    <td class="table"> 0.26</td>
+                    <td class="table"> 0.22</td>
+                    <td class="table"> 0.55</td>
+                    <td class="table"> 2</td>
+                    <td class="table"> b</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"> D3</td>
+                    <td class="table"> 0.0085</td>
+                    <td class="table"> 0.22</td>
+                    <td class="table"> 0.094</td>
+                    <td class="table"> 20.22</td>
+                    <td class="table"> 0.37</td>
+                    <td class="table"> ,10 210</td>
+                    <td class="table"> c</td>
+                  </tr>
+                  <tr class="table">
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"></td>
+                    <td class="table"> 0.80</td>
+                    <td class="table"> d</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> Correlations</td>
+                    <td class="table.strange"> of word</td>
+                    <td class="table.strange"> coordinates across</td>
+                    <td class="table.strange"> corpora. MS English</td>
+                    <td class="table.strange"> dictionary is correlated</td>
+                    <td class="table.strange"> with WN English,</td>
+                    <td class="table.strange"> translated MS French,</td>
+                    <td class="table.strange"> MS German, and MS Spanish,</td>
+                    <td class="table.strange"> as well as the</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> ANEW database.</td>
+                    <td class="table.strange"> PC1–PC4</td>
+                    <td class="table.strange"> represent the first</td>
+                    <td class="table.strange"> 4 principal components</td>
+                    <td class="table.strange"> (D1–D3 are the</td>
+                    <td class="table.strange"> 3 non-orthogonal</td>
+                    <td class="table.strange"> dimensions of</td>
+                    <td class="table.strange"> ANEW), and the numbers in each</td>
+                    <td class="table.strange"> column are the</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> corresponding</td>
+                    <td class="table.strange"> correlation</td>
+                    <td class="table.strange"> coefficients. The</td>
+                    <td class="table.strange"> correlation coefficients</td>
+                    <td class="table.strange"> with the consistently</td>
+                    <td class="table.strange"> highest absolute</td>
+                    <td class="table.strange"> values within their</td>
+                    <td class="table.strange"> row and column (if any) are</td>
+                    <td class="table.strange"> typeset in bold.</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> CCA: the first</td>
+                    <td class="table.strange"> four canonical</td>
+                    <td class="table.strange"> correlation</td>
+                    <td class="table.strange"> coefficients. Other</td>
+                    <td class="table.strange"> parameters (right column),</td>
+                    <td class="table.strange"> a: the number of</td>
+                    <td class="table.strange"> common words in</td>
+                    <td class="table.strange"> each pair of corpora (English/foreign);</td>
+                    <td class="table.strange"> b: the</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> number of</td>
+                    <td class="table.strange"> significant</td>
+                    <td class="table.strange"> canonical correlation</td>
+                    <td class="table.strange"> components; c: the</td>
+                    <td class="table.strange"> P value of the last</td>
+                    <td class="table.strange"> significant component</td>
+                    <td class="table.strange"> (all P values of</td>
+                    <td class="table.strange"> the previous components are</td>
+                    <td class="table.strange"> smaller); d: the</td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"> overall correlation</td>
+                    <td class="table.strange"> (**) of</td>
+                    <td class="table.strange"> the compared</td>
+                    <td class="table.strange"> corpus pair. All values</td>
+                    <td class="table.strange"> reported in the Table</td>
+                    <td class="table.strange"> are statistically</td>
+                    <td class="table.strange"> significant.</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                  <tr class="table.strange">
+                    <td class="table.strange"></td>
+                    <td class="table.strange"> doi:10.1371/journal.pone.0010921.t003 doi:10.1371/journal.pone.0010921.t003</td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                    <td class="table.strange"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </content>
+            <region class="TableInfo" id="170" confidence="possible" page="11" column="1">MS English PC1 PC2 PC3 PC4 CCA Other parameters WN English PC1 0.73 0.20 20.06 20.031 0.78 5926 a PC2 20.23 0.64 0.18 0.22 0.72 7 b PC3 0.12 20.13 0.57 0.13 0.63 6.6?10 24 c PC4 0.029 20.022 0.001 0.30 0.52 0.76 d MS French PC1 0.74 0.0057 0.0004 0.034 0.75 4704/19944 a PC2 20.01 0.41 0.24 0.14 0.54 7 b PC3 20.034 20.33 0.37 0.0097 0.49 2.0?10 22 c PC4 0.056 0.066 20.0058 0.021 0.27 0.74 d MS German PC1 0.73 0.037 0.025 0.056 0.78 5290/35464 a PC2 20.081 0.21 0.16 0.097 0.57 6 b PC3 0.049 20.16 0.26 0.029 0.46 1.1?10 24 c PC4 20.089 0.007 0.014 0.026 0.24 0.73 d MS Spanish PC1 0.67 0.037 20.046 20.014 0.71 1269/1269 a PC2 20.20 0.45 20.13 0.14 0.62 7 b PC3 0.17 20.056 0.46 0.066 0.60 0.005 c PC4 0.0014 0.33 0.19 0.18 0.45 0.68 d ANEW D1 0.80 20.19 0.20 0.21 0.83 451 a D2 0.052 0.39 0.26 0.22 0.55 2 b D3 0.0085 0.22 0.094 20.22 0.37 ,10 210 c 0.80 d Correlations of word coordinates across corpora. MS English dictionary is correlated with WN English, translated MS French, MS German, and MS Spanish, as well as the ANEW database. PC1–PC4 represent the first 4 principal components (D1–D3 are the 3 non-orthogonal dimensions of ANEW), and the numbers in each column are the corresponding correlation coefficients. The correlation coefficients with the consistently highest absolute values within their row and column (if any) are typeset in bold. CCA: the first four canonical correlation coefficients. Other parameters (right column), a: the number of common words in each pair of corpora (English/foreign); b: the number of significant canonical correlation components; c: the P value of the last significant component (all P values of the previous components are smaller); d: the overall correlation (**) of the compared corpus pair. All values reported in the Table are statistically significant. doi:10.1371/journal.pone.0010921.t003</region>
+          </region>
+          <region class="unknown" id="172" page="11" column="1">k cov ð x,y Þ k OC ð x,y Þ~ : ðÃÃÞ k cov ð x Þ k 1=2 k cov ð y Þ k 1=2</region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="175" confidence="possible" page="11" column="2">Validation in Color Space</h2>
+          <region class="DoCO:TextChunk" id="190" page="11" column="2">To verify the general applicability and robustness of our approach, we designed a simple simulation of color mapping. The model semantic space X color was defined as a sphere S 2 , in which each point was associated with a unique color, using the three Cartesian coordinates as RGB values. A number n of points (initially set to n = 1000) were randomly sampled from X color . For each sampled point, a list of ‘‘synonyms’’ and ‘‘antonyms’’ was generated by stochastically selecting neighbors within a certain ‘threshold angle’ as synonyms and neighbors within that threshold angle from the antipode as antonyms. The initial values for the threshold angles and the average number of onyms per point (the ‘degree’ of the graph) were set to 20u and 3.5, respectively, consistently with the parameters of the available linguistic corpora, and later allowed to vary as described below. The points were then embedded in a d-dimensional space (with a default value of d = 10) with random initial coordinates. Their coordinates were optimized by minimizing the above-described <marker type="page" number="12"/><marker type="column" number="1"/><marker type="block"/> energy function H of locations and synonym-antonym connections, using the same convergence criteria adopted for the main language study (see ‘Construction of the Semantic Map’ in Materials and Methods). Finally, the resultant distribution was rotated to principal components (<xref ref-type="fig" rid="F8" id="181" class="deo:Reference">Figure 8</xref>). The resulting accurate reconstruction of the coloring of the sphere indicates that the topology and geometry of this cognitive map (whose semantic was in this case known by construction) could be reconstructed from a sparse subset of synonym and antonym relations. Specifically, after reconstruction, the amplitudes (standard deviations) of the first three PCs are each close to 1, while the remaining 7 are negligible (<xref ref-type="fig" rid="F8C" id="182" class="deo:Reference">Figure 8C</xref>), resembling the situation observed in MS English (<xref ref-type="fig" rid="F1" id="183" class="deo:Reference">Figure 1</xref> A–C). The semantics of the reconstructed map are also consistent with the original map, as intuitively seen from comparison of the two color projections (<xref ref-type="fig" rid="F8" id="184" class="deo:Reference">Figure 8</xref> D, E). This intuition is confirmed by numerical measures of the above defined overall correlation (**) between the original and reconstructed maps (<xref ref-type="fig" rid="F9" id="185" class="deo:Reference">Figure 9</xref>). In particular, altering the dimensionality of the embedding space d, the average number of ‘‘onyms’’ per color node (i.e., the average node degree), the threshold angle between ‘‘onyms’’, as well as the number of color nodes, did not affect the quality of the reconstruction in a wide range of parameters. In other words, the results of this approach are robust with respect to alteration of the corpus parameters: the dimension of the embedding (<xref ref-type="fig" rid="F9A" id="186" class="deo:Reference">Figure 9A</xref>), the number of ‘‘onyms’’ per ‘‘word’’ (<xref ref-type="fig" rid="F9B" id="187" class="deo:Reference">Figure 9B</xref>), the number of ‘‘words’’ (<xref ref-type="fig" rid="F9C" id="188" class="deo:Reference">Figure 9C</xref>), and the maximal/minimal distance or angle between ‘‘synonyms’’/‘‘antonyms’’ (<xref ref-type="fig" rid="F9D" id="189" class="deo:Reference">Figure 9D</xref>).</region>
+          <outsider class="DoCO:TextBox" type="footer" id="177" page="11" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="178" page="11" column="2">11</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="179" page="11" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="180" page="12" column="1">Principal Semantic Dimensions</outsider>
+        </section>
+      </section>
+      <section class="deo:Discussion">
+        <h1 class="DoCO:SectionTitle" id="191" page="12" column="1">Discussion</h1>
+        <region class="DoCO:TextChunk" id="198" page="12" column="1">In his 1946 ‘‘Man’s Search for Meaning’’, neurologist and psychiatrist Viktor Frankl maintained that life has meaning under <marker type="column" number="2"/><marker type="block"/> any imaginable circumstance, that the search for this meaning is the core human drive, and that personal freedom consists of the individual choice of such meaning [<xref ref-type="bibr" rid="R23" id="195" class="deo:Reference">23</xref>]. Although internal meaning may be viewed as the most (or arguably, the only) important matter of human existence, its scientific characterization has so far resisted the otherwise seemingly unstoppable strides of technological progress. This topic has been at times dismissed as metaphysical due to the perceived impossibility to reconcile the individual, first-person perspective of the very meaning of any concept, and the scientific requirements for objective validation, unambiguous communication, systematic reproducibility, and empirical falsifiability. Recently, however, the need, potential, and importance of extending traditional research paradigms to include subjective experience have been recognized with increasing urgency [<xref ref-type="bibr" rid="R24" id="196" class="deo:Reference">24</xref>, <xref ref-type="bibr" rid="R25" id="197" class="deo:Reference">25</xref>]. One of the missing foundations is a precise measure of the content of mental states. The present study is a step toward bridging this gap.</region>
+        <region class="DoCO:FigureBox" id="F8">
+          <image class="DoCO:Figure" src="5ac9.page_012.image_08.png" thmb="5ac9.page_012.image_08-thumb.png"/>
+          <caption class="deo:Caption" id="194" page="12" column="1">Figure 8. Reconstruction of the color map. A: original PC standard deviations in d = 10. B: standard deviations of PCs in the starting configuration selected for optimization. C: reconstructed PC standard deviations in d = 10. D: original color space map. E: reconstructed color space map. doi:10.1371/journal.pone.0010921.g008</caption>
+        </region>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="199" confidence="possible" page="12" column="2">Major Conclusions</h2>
+          <region class="DoCO:TextChunk" id="233" page="12" column="2">This study demonstrates the possibility to derive a precise metric system for semantics of human experiences objectively from data collected without using human subjects. More generally, the new technical approach we presented may have practical implications for multiple fields. Previous studies that resulted in semantic maps either relied on subjective human judgments (e.g. ANEW [ <xref ref-type="bibr" rid="R18" id="200" class="deo:Reference">18</xref>], semantic differential [<xref ref-type="bibr" rid="R10" id="201" class="deo:Reference">10</xref>]) or were not explicitly related to human experiences (e.g. LSA [<xref ref-type="bibr" rid="R4" id="202" class="deo:Reference">4</xref>], Latent Dirichlet Allocation: LDA [<xref ref-type="bibr" rid="R26" id="203" class="deo:Reference">26</xref>]). In contrast, we constructed a prototype general metric system for semantics from all-purpose dictionaries, and validated its applicability to human experiences by available psychometric data. The significant correlation between the affective space of ANEW and our semantic cognitive map establishes a strong, novel, and<marker type="page" number="13"/><marker type="column" number="1"/><marker type="block"/> unexpected connection between results in experimental psychology and computational linguistics. Self-organizing semantic maps have been described before [<xref ref-type="bibr" rid="R27" id="211" class="deo:Reference">27</xref>], and numerous methods exist to construct spatial representations of lexical knowledge (e.g., [<xref ref-type="bibr" rid="R28" id="212" class="deo:Reference">28</xref>]). However, to our knowledge, this is the first objective approach to construct, based on available data, a simultaneous quantitative representation of synonymy and antonymy in a continuous metric space, whose dimensions have clearly identified general meanings. The low dimensionality of this semantic map indicates that, although thousands of distinct categories of meanings are conceivable, only very few apply to all contexts without a substantial domain-specific alteration of their semantic content. This limited number of general meanings is consistent with recent independent linguistic dimensional analyses [<xref ref-type="bibr" rid="R29" id="213" class="deo:Reference">29</xref>] and contrasts with the extensive lists of semantic categories represented in Roget’s thesaurus and related or similar endeavors [<xref ref-type="bibr" rid="R30" id="214" class="deo:Reference">30</xref>]. At the same time, the remarkable consistency of the significant principal components of our map across dictionaries and languages, as well as with previous psychometric data obtained with very different methods (such as factor analysis and word ranking), suggests that they may be rooted in the fundamental laws of the human mind.<marker type="column" number="2"/><marker type="block"/> The three dominant semantic categories revealed in our study (‘‘good-bad’’, ‘‘calm-excited’’, ‘‘open-closed’’) are consistent with earlier psychometric, cognitive, and linguistic theories and findings, including Osgood’s semantic differential [<xref ref-type="bibr" rid="R10" id="216" class="deo:Reference">10</xref>] and Leary’s interpersonal Circumplex [<xref ref-type="bibr" rid="R31" id="217" class="deo:Reference">31</xref>] (cf. [<xref ref-type="bibr" rid="R32" id="218" class="deo:Reference">32</xref>]). In particular, semantic differential rating was devised as a scale to measure the affective meaning of objects, events, and concepts. Subjects evaluate the semantic content of a term as a relative position between two bipolar words, such as warm-cold, bright-dark, beautiful-ugly, sweet-bitter, fair-unfair, brave-cowardly, meaningful-meaningless. Through factor analysis of large collections of semantic differential scales, Osgood characterized three recurring attitudes: evaluation, potency, and activity. These dimensions, mostly corresponding to the adjective pairs ‘‘good-bad’’, ‘‘strong-weak’’, and ‘‘active- passive’’, respectively, were found to be cross-cultural universals [<xref ref-type="bibr" rid="R33" id="219" class="deo:Reference">33</xref>]. There is a clear resemblance between these connotations and the principal semantic components of language that emerged in our approach. Similarly, the interpersonal Circumplex is a two- dimensional representation of personality based on agency, or power (status, dominance, and control), and communion, or love (solidarity, friendliness, and warmth: [<xref ref-type="bibr" rid="R34" id="220" class="deo:Reference">34</xref>]).<marker type="page" number="14"/><marker type="column" number="1"/><marker type="block"/> The possibility to objectively define a quantitative scale for the major categories of general semantic content, capturing both synonym and antonym relations, has practical applications to linguistic data mining [<xref ref-type="bibr" rid="R26" id="226" class="deo:Reference">26</xref>] and sentiment analysis [<xref ref-type="bibr" rid="R35" id="227" class="deo:Reference">35</xref>]. The main scientific value of the constructed map, however, is to lay the foundation of a precise metric system for meaning that goes far beyond the current practice of qualitative assessment [<xref ref-type="bibr" rid="R36" id="228" class="deo:Reference">36</xref>], with important implications for artificial intelligence and cognitive neuropsychology [<xref ref-type="bibr" rid="R2" id="229" class="deo:Reference">2</xref>]. In fact, a rigorous science of mind may require a precisely defined, universal metric system for mental state semantics [<xref ref-type="bibr" rid="R2" id="230" class="deo:Reference">2</xref>, <xref ref-type="bibr" rid="R8" id="231" class="deo:Reference">8</xref>]. Similarly, in cognitive architectures representations need to be sorted by their semantics [<xref ref-type="bibr" rid="R37" id="232" class="deo:Reference">37</xref>].</region>
+          <outsider class="DoCO:TextBox" type="footer" id="205" page="12" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="206" page="12" column="2">12</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="207" page="12" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="208" page="13" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F9">
+            <image class="DoCO:Figure" src="5ac9.page_013.image_09.png" thmb="5ac9.page_013.image_09-thumb.png"/>
+            <caption class="deo:Caption" id="210" page="13" column="1">Figure 9. Robustness of the color map reconstruction. A: correlation between the reconstructed map and the original map as it varies with the embedding space dimension d for three different values of the threshold angle between ‘‘onyms’’: 10u (blue), 20u (red), and 30u (black). The number of nodes and their average degree are 1000 and 3.5, respectively. B: correlation between the reconstructed and the original map as a function of the average node degree. The number of nodes, embedding dimension, and threshold value are 1000, 10, and 0.90, respectively. C: correlation with the original map as a function of the number of nodes. The embedding dimension, threshold, and average degree are 10, 0.50, and 3.5, respectively. D: correlation with the original map as a function of the threshold angle between ‘‘synonyms’’ and ‘‘antonyms’’ for four different values of the number of nodes: 100 (blue), 300 (red), 1000 (black), 5000 (magenta). The embedding dimension and average degree are 10 and 3.50, respectively. doi:10.1371/journal.pone.0010921.g009</caption>
+          </region>
+          <outsider class="DoCO:TextBox" type="footer" id="222" page="13" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="223" page="13" column="2">13</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="224" page="13" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="225" page="14" column="1">Principal Semantic Dimensions</outsider>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="234" confidence="possible" page="14" column="1">Related Works and Novelty of the Contribution of This Work</h2>
+          <region class="DoCO:TextChunk" id="261" page="14" column="1">Low-dimensional vector-space representations of word meaning were constructed previously at least in two fields, namely computational linguistics and experimental psychology. In the former case (e.g. LSA [ <xref ref-type="bibr" rid="R4" id="235" class="deo:Reference">4</xref>], probabilistic latent semantic analysis, or pLSA [<xref ref-type="bibr" rid="R38" id="236" class="deo:Reference">38</xref>], LDA [<xref ref-type="bibr" rid="R26" id="237" class="deo:Reference">26</xref>, <xref ref-type="bibr" rid="R38" id="238" class="deo:Reference">38</xref>], Isomap [<xref ref-type="bibr" rid="R39" id="239" class="deo:Reference">39</xref>]) the purpose is often to improve information retrieval systems by indicating which documents are similar and which are not. Efforts in experimental psychology (Semantic Differential [<xref ref-type="bibr" rid="R10" id="240" class="deo:Reference">10</xref>], ANEW [<xref ref-type="bibr" rid="R18" id="241" class="deo:Reference">18</xref>], Circumplex [<xref ref-type="bibr" rid="R32" id="242" class="deo:Reference">32</xref>]) aim to describe aspects of human semantic memory and affective states. The present work connected results of these two fields by establishing a correspondence between the objectively constructed semantic cognitive map and ANEW [<xref ref-type="bibr" rid="R14" id="243" class="deo:Reference">14</xref>]. Previous semantic maps created with different techniques did not demonstrate similar features. The observation that positive words are used more frequently in English than negative words provides additional evidence for the usefulness of the map as a metric system for human experiences. The semantic similarity of our map with ANEW in the first two dimensions was quantitatively confirmed by canonical correlation analysis, based on the map locations of words that are common for the two maps. However, the two maps are not equivalent to each other. The map constructed in the present study contains more dimensions and more words, including words that do not belong to affective stimuli. Most importantly, this map differs qualitatively from previous data as it was not constructed based on given semantic dimensions. Instead, semantics of our map dimensions are emergent and defined by the locations of all words together. The constructed semantic cognitive map provides one geometrical representation for two relations: synonymy and antonymy. Most existing automated methods infer synonymy from word co- occurrence [<xref ref-type="bibr" rid="R19" id="244" class="deo:Reference">19</xref>] and do not explicitly account for antonymy. Thus, the ability to represent antonymy, which may capture a vital aspect of meaning [<xref ref-type="bibr" rid="R40" id="245" class="deo:Reference">40</xref>], constitutes an essential feature of our approach. Previous semantic cognitive mapping studies involving dissimilarity metric [<xref ref-type="bibr" rid="R4" id="246" class="deo:Reference">4</xref>, <xref ref-type="bibr" rid="R6" id="247" class="deo:Reference">6</xref>] had problems to find a geometric representation of antonymy (e.g., [<xref ref-type="bibr" rid="R41" id="248" class="deo:Reference">41</xref>]). This limitation of known approaches could be due to the non-trivial relation between antonymy and the traditionally used dissimilarity metric. For example, king and queen could be synonyms, as in head of the royal family, or antonyms, as in gender (see also footnote 1 above). Our choice of energy function (*) departs from the current paradigm. The principal components of the resulting map uniquely capture the general aspects of antonymy, i.e. those that apply to most contexts. Accordingly, the notions of synonymy and antonymy used in our analysis differ from the concepts of similarity and dissimilarity as defined by co-occurrence, as illustrated by the king/queen or hot/cool examples mentioned above. Many definitions of antonymy were proposed over the years [<xref ref-type="bibr" rid="R42" id="249" class="deo:Reference">42</xref>, <xref ref-type="bibr" rid="R43" hidden="1" id="250" class="deo:Reference">43</xref>, <xref ref-type="bibr" rid="R44" hidden="1" id="251" class="deo:Reference">44</xref>, <xref ref-type="bibr" rid="R45" hidden="1" id="252" class="deo:Reference">45</xref>, <xref ref-type="bibr" rid="R46" id="253" class="deo:Reference">46</xref>], and none of them is reducible to a notion of (dis)similarity.<marker type="column" number="2"/><marker type="block"/> Unlike with LSA and related techniques, were the low- dimensionality of the map results from manual truncation of higher dimensions [<xref ref-type="bibr" rid="R5" id="255" class="deo:Reference">5</xref>], in our case this property emerged naturally. This may have broad implications. In the foundational hypothesis of a set of categories as generators of language, the number of necessary categories was believed to be large [<xref ref-type="bibr" rid="R11" id="256" class="deo:Reference">11</xref>]. The idea that such large variety of antonymy senses used in natural language is reducible to relatively few basic notions was actually discussed in the previous century [<xref ref-type="bibr" rid="R47" id="257" class="deo:Reference">47</xref>], but is no longer considered in modern linguistics. It is therefore surprising that this reduction can be achieved with only three or four basic dimensions. Unlike most previous studies, our model was not tailored for a special practical purpose, but was constructed starting from basic principles. Our energy function was selected as the most parsimonious analytical expression corresponding to the concept of synonym and antonym vector alignment. The first term is the simplest analytical expression that attempts to align synonym vectors in parallel and antonym vectors in opposite directions. The last term is the lowest symmetric power term that is necessary to keep the distribution compact. This conceptual framework significantly differs from the frameworks mentioned above, including LSA [<xref ref-type="bibr" rid="R5" id="258" class="deo:Reference">5</xref>], LDA [<xref ref-type="bibr" rid="R26" id="259" class="deo:Reference">26</xref>], Multidimensional Scaling (MDS) [<xref ref-type="bibr" rid="R48" id="260" class="deo:Reference">48</xref>], etc. Semantics of the principal dimensions of our map are reproduced across databases and languages. This is not a characteristic of any previously constructed vector semantic map in computational linguistics. Even though dimensions of the earlier constructed maps have identifiable semantics, those semantics are domain-specific, and there is no visible semantic similarity between our map and various vector representations of semantics of words constructed using LSA, LDA and other approaches.</region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="262" confidence="possible" page="14" column="2">Limits and Applications of the Semantic Map</h2>
+          <region class="DoCO:TextChunk" id="275" page="14" column="2">Although the constructed semantic map reveals definitive semantics in each of its significant principal components, the vector associated with every word in the map should be interpreted as a ‘‘noisy’’ measure rather than an exact set of numerical values. This cautious interpretation is motivated by two considerations. First, the positions of individual words on the map depend on the selection of available synonym-antonym links, which only constitute a small subset of all possible synonym- antonym links. Adding or deleting a link changes map coordinates of the corresponding words. Stated differently, any dictionary of synonyms and antonyms only provides sparse sampling of the onym graph. The quantitative extent of this sparse sampling can be estimated by comparing two independent thesauri, such as MS English and WN English. Limiting the respective dictionaries of synonyms to the pool of their 5,926 words in common leaves 30,922 links for MS and 12,188 for WN, with 6,576 overlaps. Assuming that synonyms in each of the two dictionaries are sampled randomly and independently from the ‘‘comprehensive’’ set of all true synonyms, the cardinality of the true synonym set can be computed as (30,922?12,188/6,576) = 57,311. Thus, the MS and WN English dictionaries only represent at most ,54% and 21%, respectively, of all synonyms. However, the assumption of independent random sampling is unlikely to be realistic, because more usual synonyms may have a greater chance to be listed in both dictionaries, thus increasing the number of overlaps. Therefore, these values should be considered coarse overestimates, and the real representation is likely to be even sparser. The second major source of noise in the constructed map is that each word is associated with a number of potentially very different meanings, or ‘‘senses’’. For example, the word mean can assume the distinct meanings of ‘‘average’’, ‘‘nasty’’, and ‘‘indicate’’. There- <marker type="page" number="15"/><marker type="column" number="1"/><marker type="block"/> fore, the word vector may be forced to find a compromise orientation that does not match precisely any of the word meanings. From this perspective, the constructed map crudely approximates meanings with words. Semantics of individual words may not match precisely semantics of their map locations, and therefore should not be taken as literal definitions of the latter. Although the map was constructed based on relations among individual words, precise numerical definitions of its semantics only apply to large subsets of words, as in the analyses involving word frequency data (<xref ref-type="fig" rid="F8" id="268" class="deo:Reference">Figure 8</xref>). More generally, individual map locations can be viewed as representing unambiguous, topographically organized semantics defined by the entire distribution of all words on the map rather than by one word. In particular, the map location of a specific meaning could be computed precisely as the center of mass of the group of all its representing words. Two meanings with close/ opposite centers of mass would be more likely to be synonym/ antonym than two individual words separated by the same distance on the map. The accuracy of the map location of a meaning would increase with the number of its representing words. Ideally, in order to precisely allocate meaning on the map, the center of mass of all dictionary words should be computed with appropriate weights measuring their semantic agreement with the given meaning. As a result of these two limitations, namely sparse sampling and approximation of meanings with words, individual word coordinates are subject to considerable noise, the relative amplitude of which can be roughly estimated as 10–20%. Nevertheless, the map is robust with respect to the assignments of synonyms and antonyms, and their connotation, from sets of related words. In particular, within all onyms of onyms, constituting a pool of terms likely related to a given word, dot product is a powerful predictor of semantic content (<xref ref-type="fig" rid="F8" id="269" class="deo:Reference">Figure 8</xref> and <xref ref-type="table" rid="T2" id="270" class="deo:Reference">Table 2</xref>). Moreover, when global map characteristics are derived from all word coordinates, as in cross-corpus map correlations (<xref ref-type="table" rid="T3" id="271" class="deo:Reference">Table 3</xref>) the noise effectively averages out. This means that the map can be used as a precise semantic scale, even if individual words cannot. In addition, our map does not capture the whole semantics of a word, but only the aspect that distinguishes between synonyms and antonyms in a context-independent query. The domain-specific part of meaning, including the aspect that determines the likelihood for a word to appear in a particular topic or document, is missed equally for all words. Words that fall near the origin (like ‘‘emigrant’’) do not have a significant measure of the ‘‘semantic<marker type="column" number="2"/><marker type="block"/> flavor’’ that this map represents. This is also why finding unrelated words next to each other on the map does not indicate an inconsistency.</region>
+          <outsider class="DoCO:TextBox" type="footer" id="264" page="14" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="265" page="14" column="2">14</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="266" page="14" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="267" page="15" column="1">Principal Semantic Dimensions</outsider>
+          <region class="DoCO:FigureBox" id="F10">
+            <image class="DoCO:Figure" src="5ac9.page_015.image_10.png" thmb="5ac9.page_015.image_10-thumb.png"/>
+            <caption class="deo:Caption" id="274" page="15" column="1">Figure 10. Semantic space concept. X: space of concepts (meanings) internally delineated by distinct domains of applicability; V: space of relations among concepts; G: graph of relations among selected concepts in X. Links connecting concepts in X and in G are translated to common origin in V and rotated to minimize the energy function (*), while preserving their consistent angular relations that correspond to the notions of synonymy and antonymy. doi:10.1371/journal.pone.0010921.g010</caption>
+          </region>
+        </section>
+        <section class="DoCO:Section">
+          <h2 class="DoCO:SectionTitle" id="276" confidence="possible" page="15" column="2">Relating the Constructed Word Map to Semantic Space</h2>
+          <region class="DoCO:TextChunk" id="284" page="15" column="2">Semantic space, or the set X of all meanings, by assumption can be mapped into a high-dimensional Euclidean space ( <xref ref-type="fig" rid="F10" id="277" class="deo:Reference">Figure 10</xref>, left). Selected relations among meanings represented by words are shown as vectors connecting points of X (colored arrows). These relations have each their own domain of applicability in X. Dashed lines of corresponding colors show the domain boundaries. For example, the word hot can be viewed as a label for the relation among two meanings represented by points in X, one of which can be considered hot as compared to the other: the red color is hot compared to the blue color, the weather in Mexico is hot compared to Canada, the housing market in Manhattan is hot compared to that in Detroit. The relation hot, however, has a limited domain of applicability. For instance, this concept does not make sense in general when referred to pairs of elementary geometrical shapes. As a particular example, a triangle can be said to be sharp, but not hot, compared to a circle. Domains of applicability of two relations labeled by words may be overlapping or disjoint. For example, domains of applicability of hot and sharp overlap, e.g. in the food domain, while the domains of applicability of differentiable, a mathematical term, and charismatic appear to be disjoint. Two relations labeled by words within an overlap of their domains are synonyms, if their vectors point in the same or similar directions (e.g., hot and sharp in the food domain). They are antonyms, if their vectors point in the opposite or nearly opposite directions (e.g., hot and cold). These notions of synonymy and antonymy have a clear geometrical interpretation in X locally. However, they may or may not be globally consistent. For instance, good and bad are in general globally consistent antonyms, i.e. they point in nearly opposite directions in all of their overlapping domains of applicability. In contrast, hot and cool are often antonyms but occasionally point in similar directions, i.e. are synonyms, as in the example of ‘‘a hot videogame’’ and ‘‘a cool videogame’’ (cf. footnote 1). The vectors representing relations labeled by words, when translated to a common origin, span a vector space V. Here they can be further rotated to reduce the dimension of V, respecting the following rule: global synonyms should remain nearly parallel and global antonyms nearly anti-parallel. However, the converse may not be true. For example, if red and brown arrows (<xref ref-type="fig" rid="F10" id="278" class="deo:Reference">Figure 10</xref>) have<marker type="page" number="16"/><marker type="column" number="1"/><marker type="block"/> overlapping domains in X and represent synonyms, then they should be nearly parallel in V. Blue and purple arrows have disjoint domains and therefore cannot be called global synonyms or antonyms, despite the fact that they are nearly parallel in V. Thus, their mutual orientation in the embedding of X could be any. Red and purple arrows have overlapping domains and are nearly anti-parallel in X (antonyms), therefore, they have to keep this property in V. However, brown and purple arrows cannot be antonyms, because their domains are disjoint. Red and green arrows have overlapping domains in X and are orthogonal in their common domain in X: they are neither synonyms nor antonyms. While in principle according to the above rule they can be oriented at any angle in V, our numerical experiments show that they are more likely to be nearly orthogonal to each other in V, if other angular relations within the overlap of their domains are satisfied. The above rule to translate and rotate vectors from X to V is captured by the energy function described in Materials and Methods (*). As a consequence of the optimization process, the dimension of V can be smaller than the dimension of the Euclidean space into which X is mapped. However, because metrics in V respect consistent synonym and antonym relations among all vectors defined at any given location in X, the dimension of V is unlikely to be smaller than the dimension of X itself. Therefore, the dimension of V, which in our analysis is ,4 provides an approximate upper bound on the dimension of X and a lower bound on the dimension of the Euclidean space into which X is mapped.</region>
+          <outsider class="DoCO:TextBox" type="footer" id="280" page="15" column="2">PLoS ONE | www.plosone.org</outsider>
+          <outsider class="DoCO:TextBox" type="page_nr" id="281" page="15" column="2">15</outsider>
+          <outsider class="DoCO:TextBox" type="footer" id="282" page="15" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+          <outsider class="DoCO:TextBox" type="header" id="283" page="16" column="1">Principal Semantic Dimensions</outsider>
+        </section>
+      </section>
+      <section class="DoCO:Bibliography">
+        <h1 class="DoCO:SectionTitle" id="285" page="16" column="1">References</h1>
+        <ref-list class="DoCO:BiblioGraphicReferenceList">
+          <ref rid="R1" class="deo:BibliographicReference" id="286" page="16" column="1">1. Fellbaum C (1998) WordNet: An electronic lexical database. Cambridge, MA: MIT Press.</ref>
+          <ref rid="R2" class="deo:BibliographicReference" id="287" page="16" column="1">2. Ascoli GA, Samsonovich AV (2008) Science of the conscious mind. Biol Bull 215: 204–215.</ref>
+          <ref rid="R3" class="deo:BibliographicReference" id="288" page="16" column="1">3. Tversky A, Gati I (1982) Similarity, separability, and the triangle inequality. Psychol Rev 89: 123–154.</ref>
+          <ref rid="R4" class="deo:BibliographicReference" id="289" page="16" column="1">4. Landauer TK, Dumais ST (1997) A solution to Plato’s problem: the Latent Semantic Analysis theory of acquisition, induction, and representation of knowledge. Psyc Rev 104: 211–240.</ref>
+          <ref rid="R5" class="deo:BibliographicReference" id="290" page="16" column="1">5. Landauer TK, McNamara DS, Dennis S, Kintsch W, eds (2007) Handbook of Latent Semantic Analysis. Mahwah, NJ: Lawrence Erlbaum Associates.</ref>
+          <ref rid="R6" class="deo:BibliographicReference" id="291" page="16" column="1">6. G  ̈ rdenfors P (2004) Conceptual spaces: The geometry of thought. Cambridge, MA: MIT Press.</ref>
+          <ref rid="R7" class="deo:BibliographicReference" id="292" page="16" column="1">7. Fauconnier G (1994) Mental Spaces. Cambridge, UK: Cambridge University Press.</ref>
+          <ref rid="R8" class="deo:BibliographicReference" id="293" page="16" column="1">8. Samsonovich AV, Goldin RF, Ascoli GA (2010) Toward a semantic general theory of everything. Complexity 15 (4): 12–18.</ref>
+          <ref rid="R9" class="deo:BibliographicReference" id="294" page="16" column="1">9. Parkin AJ (1993) Memory: Phenomena, experiment and theory. Oxford, UK: Blackwell.</ref>
+          <ref rid="R10" class="deo:BibliographicReference" id="295" page="16" column="1">10. Osgood CE, Suci G, Tannenbaum P (1957) The measurement of meaning. Urbana, IL: University of Illinois Press.</ref>
+          <ref rid="R11" class="deo:BibliographicReference" id="296" page="16" column="1">11. Roget P (1852) Roget’s Thesaurus of English words and phrases.</ref>
+          <ref rid="R12" class="deo:BibliographicReference" id="297" page="16" column="1">12. Fellbaum C (1998) WordNet: An electronic lexical database. Cambridge, MA: MIT Press.</ref>
+          <ref rid="R13" class="deo:BibliographicReference" id="298" page="16" column="1">13. Samsonovich AV, Ascoli GA (2007) Cognitive map dimensions of the human value system extracted from the natural language. In: Goertzel B, ed. Advances in artificial general intelligence (Proc. 2006 AGIRI workshop). Amsterdam: IOS Press. pp 111–124.</ref>
+          <ref rid="R14" class="deo:BibliographicReference" id="299" page="16" column="1">14. Bradley MM, Lang PJ (1999) Affective norms for English words (ANEW): Stimuli, instruction manual and affective ratings. Technical report C-1. Gainesville, FL: University of Florida.</ref>
+          <ref rid="R15" class="deo:BibliographicReference" id="300" page="16" column="1">15. Leech G, Rayson P, Wilson A (2001) Word frequencies in written and spoken english: based on the british national corpus. London: Longman.</ref>
+          <ref rid="R16" class="deo:BibliographicReference" id="301" page="16" column="1">16. Chalmers KA, Humphreys MS, Dennis S (1997) A naturalistic study of the word frequency effect in episodic recognition. Memory and cognition 25: 780–784.</ref>
+          <ref rid="R17" class="deo:BibliographicReference" id="302" page="16" column="1">17. Savikas A (2005) Word hacks: Tips and tools for taming your text. Sebastopol, CA: O’Reilly Media, Inc.</ref>
+          <ref rid="R18" class="deo:BibliographicReference" id="303" page="16" column="1">18. Lang PJ, Bradley MM, Cuthbert BN (1998) Emotion and motivation: measuring affective perception. J Clin Neurophysiol 15: 397–408.</ref>
+          <ref rid="R19" class="deo:BibliographicReference" id="304" page="16" column="1">19. Burgess C, Lund K (1997) Modelling parsing constraints with high-dimensional context space. Language and cognitive processes 12: 177–210.</ref>
+          <ref rid="R20" class="deo:BibliographicReference" id="305" page="16" column="1">20. Clark JM, Paivio A (2004) Extensions of the Paivio, Yuille, and Madigan (1968) norms. Behav Res Methods Instrum Comput 36: 371–383.</ref>
+          <ref rid="R21" class="deo:BibliographicReference" id="312" page="16" column="2">21. Rubin DC (1980) 51 properties of 125 words: A unit analysis of verbal behavior. J Verb Learn Verb Behav 19: 736–755.</ref>
+          <ref rid="R22" class="deo:BibliographicReference" id="313" page="16" column="2">22. Hardoon DR, Szedmak S, Shawe-Taylor J (2004) Canonical correlation analysis: an overview with application to learning methods. Neural Comput 16: 2639–2664.</ref>
+          <ref rid="R23" class="deo:BibliographicReference" id="314" page="16" column="2">23. Frankl VE (1946) Man’s search for meaning: 1956 Engl Transl, 1997 Rev. Upd. Ed. New York: Washington Square Press.</ref>
+          <ref rid="R24" class="deo:BibliographicReference" id="315" page="16" column="2">24. Albus JS, Bekey GA, Holland JH, Kanwisher NG, Krichmar JL, et al. (2007) A proposal for a Decade of the Mind initiative. Science 317(5843): 1321.</ref>
+          <ref rid="R25" class="deo:BibliographicReference" id="316" page="16" column="2">25. Spitzer M (2008) Decade of the mind. Philos Ethics Humanit Med 20: 3–7.</ref>
+          <ref rid="R26" class="deo:BibliographicReference" id="317" page="16" column="2">26. Griffiths TL, Steyvers M (2004) Finding scientific topics. Proc Natl Acad Sci USA 101S1: 5228–5235.</ref>
+          <ref rid="R27" class="deo:BibliographicReference" id="318" page="16" column="2">27. Ritter H, Kohonen T (1989) Self-organizing semantic maps. Biol Cybern 61: 241–254.</ref>
+          <ref rid="R28" class="deo:BibliographicReference" id="319" page="16" column="2">28. Ploux S, Ji H (2003) A model for matching semantic maps between languages (French/English, English/French). Comput Ling 29: 155–178.</ref>
+          <ref rid="R29" class="deo:BibliographicReference" id="320" page="16" column="2">29. Doxas I, Dennis S, Oliver W (2007) The dimensionality of language. In: McNamara DS, Trafton JG, eds. Proceedings of the 29th Annual Cognitive Science Society. AustinTX: Cognitive Science Society. pp 227–232.</ref>
+          <ref rid="R30" class="deo:BibliographicReference" id="321" page="16" column="2">30. Jones S (2002) Antonymy: A corpus based perspective. London: Routledge. 31. Leary T (1957) Interpersonal diagnosis of personality. New York: Ronald Press.</ref>
+          <ref rid="R32" class="deo:BibliographicReference" id="322" page="16" column="2">32. Russell JA (1980) A circumplex model of affect. Journal of Personality and Social Psychology 39(6): 1161–178.</ref>
+          <ref rid="R33" class="deo:BibliographicReference" id="323" page="16" column="2">33. Osgood CE, May WH, Miron MS (1975) Cross-cultural universals of affective meaning. Urbana, IL: University of Illinois Press.</ref>
+          <ref rid="R34" class="deo:BibliographicReference" id="324" page="16" column="2">34. Horowitz LM (2004) Interpersonal foundations of psychopathology. Washington, DC: American Psychological Association.</ref>
+          <ref rid="R35" class="deo:BibliographicReference" id="325" page="16" column="2">35. Pang B, Lee L (2008) Opinion mining and sentiment analysis. Found Trends Inform Retr 2: 1–135.</ref>
+          <ref rid="R36" class="deo:BibliographicReference" id="326" page="16" column="2">36. Likert R (1932) A technique for the measurement of attitudes. Arch Psychol 140: 1–55.</ref>
+          <ref rid="R37" class="deo:BibliographicReference" id="327" page="16" column="2">37. Gray WD, ed. Integrated models of cognitive systems. Series on cognitive models and architectures. Oxford, UK: Oxford University Press.</ref>
+          <ref rid="R38" class="deo:BibliographicReference" id="328" page="16" column="2">38. Blei DM, Ng AY, Jordan MI (2003) Latent dirichlet allocation. Journal of Machine Learning Research 3: 993–1022.</ref>
+          <ref rid="R39" class="deo:BibliographicReference" id="329" page="16" column="2">39. Tenenbaum JB, de Silva V, Langford JC (2000) A global geometric framework for nonlinear dimensionality reduction. Science 290: 2319–2323.</ref>
+          <ref rid="R40" class="deo:BibliographicReference" id="330" page="16" column="2">40. Murphy ML (2003) Semantic relations and the lexicon: Antonymy, synonymy and other paradigms. Cambridge, UK: Cambridge University Press.</ref>
+          <ref rid="R41" class="deo:BibliographicReference" id="332" page="16" column="2">41. Schwab D, Lafourcade M, Prince V (2002) Antonymy and conceptual vectors. Proc COLING 2002: The 19th International Conference on Computational Linguistics, Taipei, Taiwan August 2002 2: 904–910. Tokyo, Japan: Available at <ext-link ext-link-type="uri" href="http://www.aclweb.org/anthology-new/C/C02/C02-1061.pdf." id="331">http://www.aclweb.org/anthology-new/C/C02/C02-1061.pdf.</ext-link></ref>
+          <ref rid="R42" class="deo:BibliographicReference" id="337" page="17" column="1">42. Cruse DA (1986) Lexical semantics. Cambridge, UK: Cambridge University Press.</ref>
+          <ref rid="R43" class="deo:BibliographicReference" id="338" page="17" column="1">43. Lehrer A, Lehrer K (1982) Antonymy. linguistics and philosophy 5: 483–501.</ref>
+          <ref rid="R44" class="deo:BibliographicReference" id="339" page="17" column="1">44. Kagan J (1984) The nature of the child Basic Books.</ref>
+          <ref rid="R45" class="deo:BibliographicReference" id="340" page="17" column="1">45. Deese J (1965) The structure of associations in language and thought The Johns Hopkins Press.</ref>
+          <ref rid="R46" class="deo:BibliographicReference" id="341" page="17" column="2">46. Egan RF (1984) Survey of the history of English synonymy. In: Webster’s New Dictionary of Synonyms. Springfield, MA: Merriam Webster. pp 5a–25a.</ref>
+          <ref rid="R47" class="deo:BibliographicReference" id="343" page="17" column="2">47. L’vov MR, Novikov LA (2006) Dictionary of Antonyms of Russian: Eights Edition 592, Moscow: Act-Press Kniga, ( .).</ref>
+          <ref rid="R48" class="deo:BibliographicReference" id="344" page="17" column="2">48. Cox RF, Cox MA (1994) Multidimensional scaling. Chapman &amp; Hall.</ref>
+        </ref-list>
+        <region class="DoCO:TextChunk" id="307" page="16" column="2">According to this interpretation, the results of our work can be restated as the following. There are only a small number (,4) of independent (‘‘orthogonal’’) semantic relations that generally apply in a consistent manner to almost all possible domains of applicability. In order of importance, or of the amount of meaning they express, as measured by the captured variance, they can be identified as good/bad (valence), calm/excited (arousal), open/ closed (freedom), and copious/essential. The first three of these dimensions are consistent across corpora and languages. An alternative, simplistic view of the semantic space X is a connected graph G (<xref ref-type="fig" rid="F10" id="306" class="deo:Reference">Figure 10</xref>, right), where nodes are words now interpreted as corresponding to broad categories in the set X. Edges of G represent relations among words, namely synonymy (black) and antonymy (colored). Because each meaning of a word, and in most cases each word, typically has at most one antonym in the dictionary, words again can be associated with directions of their antonym links and therefore can be embedded as vectors in V, as described above. The above analysis suggests that equivalent semantic properties of V will result from interpretation of either individual words or pairs of antonyms as vectors in V.</region>
+      </section>
+      <section class="deo:Acknowledgements">
+        <h1 class="DoCO:SectionTitle" id="308" page="16" column="2">Acknowledgments</h1>
+        <region class="DoCO:TextChunk" id="309" confidence="possible" page="16" column="2">We thank Drs. Rebecca F. Goldin, Harold J. Morowitz, and James L. Olds for valuable discussions and feedback.</region>
+      </section>
+      <section class="DoCO:Section">
+        <h1 class="DoCO:SectionTitle" id="310" page="16" column="2">Author Contributions</h1>
+        <region class="DoCO:TextChunk" id="311" confidence="possible" page="16" column="2">Conceived and designed the experiments: AS GAA. Performed the experiments: AS. Analyzed the data: AS GAA. Wrote the paper: AS GAA.</region>
+        <outsider class="DoCO:TextBox" type="footer" id="333" page="16" column="2">PLoS ONE | www.plosone.org</outsider>
+        <outsider class="DoCO:TextBox" type="page_nr" id="334" page="16" column="2">16</outsider>
+        <outsider class="DoCO:TextBox" type="footer" id="335" page="16" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+        <outsider class="DoCO:TextBox" type="header" id="336" page="17" column="1">Principal Semantic Dimensions</outsider>
+        <region class="DoCO:FigureBox" id="Fx342">
+          <image class="DoCO:Figure" src="5ac9.page_017.image_11.png" thmb="5ac9.page_017.image_11-thumb.png"/>
+        </region>
+        <outsider class="DoCO:TextBox" type="footer" id="345" page="17" column="2">PLoS ONE | www.plosone.org</outsider>
+        <outsider class="DoCO:TextBox" type="page_nr" id="346" page="17" column="2">17</outsider>
+        <outsider class="DoCO:TextBox" type="footer" id="347" page="17" column="2">June 2010 | Volume 5 | Issue 6 | e10921</outsider>
+      </section>
+    </body>
+  </article>
+</pdfx>
