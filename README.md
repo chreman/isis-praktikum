@@ -11,8 +11,9 @@ How-To
 ------
 
 Voraussetzungen:
-- python 2.6
-- gensim
+- python 2
+- gensim http://radimrehurek.com/gensim/
+- nltk mit stopwords corpus
  
 
 Inputs:
@@ -30,4 +31,4 @@ Ausführung:
 
 Outputs:
 - Topic-Liste
-- Tabelle Konfusionswerte
+- Tabelle Konfusionswerte evaluation.csv
