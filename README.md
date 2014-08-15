@@ -11,9 +11,9 @@ How-To
 ------
 
 Voraussetzungen:
-- python 2
+- python 2.7
 - gensim http://radimrehurek.com/gensim/
-- nltk mit stopwords corpus
+- nltk mit stopwords corpus (import nltk; nltk.download('stopwords') )
  
 
 Inputs:
